@@ -24,14 +24,13 @@ from django.urls import path,include,re_path
 # from django_registration.one_step.views import RegistrationView
 # from users.forms import CustomUserForm
 # from accounts import views
-from .views import SocialLoginView, GoogleView
+from .views import SocialLoginView
 urlpatterns = [
 
     # path('sign_up/', views.SignUp.as_view(), name="sign_up"),
     path('', SocialLoginView.as_view()),
     # path('api/rest-auth/registration/', include('rest_auth.registration.urls')),
-    # re_path(r'^.*$',IndexTemplateView.as_view(),name='entry point'),
-    path('google/', GoogleView.as_view(), name='google')
+    # re_path(r'^.*$',IndexTemplateView.as_view(),name='entry point')
 
 
 
