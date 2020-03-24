@@ -1,0 +1,15 @@
+[2020-03-23 04:21:07 +0000] [22284] [INFO] Starting gunicorn 20.0.4
+[2020-03-23 04:21:07 +0000] [22284] [INFO] Listening at: unix:/tmp/gunicorn.sock (22284)
+[2020-03-23 04:21:07 +0000] [22284] [INFO] Using worker: sync
+[2020-03-23 04:21:07 +0000] [22287] [INFO] Booting worker with pid: 22287
+[2020-03-23 04:21:07 +0000] [22289] [INFO] Booting worker with pid: 22289
+[2020-03-23 04:21:07 +0000] [22290] [INFO] Booting worker with pid: 22290
+[2020-03-23 06:28:15 +0000] [22289] [INFO] Worker reloading: /usr/lib/python3/dist-packages/apport_python_hook.py modified
+[2020-03-23 06:28:15 +0000] [22289] [INFO] Worker exiting (pid: 22289)
+[2020-03-23 06:28:15 +0000] [22287] [INFO] Worker reloading: /usr/lib/python3/dist-packages/apport_python_hook.py modified
+[2020-03-23 06:28:15 +0000] [22287] [INFO] Worker exiting (pid: 22287)
+[2020-03-23 06:28:15 +0000] [22290] [INFO] Worker reloading: /usr/lib/python3/dist-packages/apport_python_hook.py modified
+[2020-03-23 06:28:15 +0000] [22290] [INFO] Worker exiting (pid: 22290)
+[2020-03-23 06:28:16 +0000] [5730] [INFO] Booting worker with pid: 5730
+[2020-03-23 06:28:16 +0000] [5731] [INFO] Booting worker with pid: 5731
+[2020-03-23 06:28:16 +0000] [5732] [INFO] Booting worker with pid: 5732
