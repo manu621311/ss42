@@ -25,6 +25,14 @@ from taggit_serializer.serializers import (TagListSerializerField,
 #     def get_user_has_voted(self,instance):
 #         request=self.context.get("request")
 #         return instance.commentss.filter(pk=request.user.pk).exists()
+class UserDetailSerializer(serializers.ModelSerializer):
+    """for all  getting all objectws of a particular user """
+    class Meta:
+        model=Post
+        fields=['id',
+                'author',
+                'review',
+                ]
 class Spost(TaggitSerializer,serializers.ModelSerializer):
     tags = TagListSerializerField()
 
