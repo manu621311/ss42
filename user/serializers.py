@@ -7,4 +7,4 @@ class UserDetailSerializer(serializers.ModelSerializer):
     """for all  getting all objectws of a particular user """
     class Meta:
         model = User
-        fields=['id', 'username', 'email', 'is_superuser', 'first_name', 'last_name']
+        fields=['id', 'username', 'email', 'first_name', 'last_name', 'is_superuser', 'is_staff', 'is_active', 'date_joined']
