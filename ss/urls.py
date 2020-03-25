@@ -15,6 +15,7 @@ from django.contrib import admin
 from django.urls import path,include,re_path
 from core.views import IndexTemplateView
 from  rest_framework.authtoken.views import obtain_auth_token
+from rest_framework_jwt.views import obtain_jwt_token
 # from django_registration.backends.one_step.views import RegistrationView
 # from django_registration.backends.one_step import RegistrationView
 # from django_registration.backends.one_step.views import RegistrationView
@@ -26,17 +27,20 @@ from accounts import views
 urlpatterns = [
     path('signup', views.signuppage),
     path('savedetails/',views.saveregistrationdetails,name='savedetails'),
+    path('user/', include('user.urls')),
 
     path('admin/', admin.site.urls),
     # path('auth/',n_auth_token),
+
+    path('login', obtain_jwt_token, name='token_obtain_pair'),
 
 
 
     path('api/', include('posts.api.urls')),
     # path('api-auth/', include('rest_framework.urls')),
     path('api/rest-auth/', include('rest_auth.urls')),
-        path('api/auth/', include('rest_framework_social_oauth2.urls')),
-            path('a/', include('ss.api.urls')),
+    path('api/auth/', include('rest_framework_social_oauth2.urls')),
+    path('a/', include('ss.api.urls')),
 
 
     # path('api/rest-auth/registration/', include('rest_auth.registration.urls')),
