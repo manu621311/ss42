@@ -19,8 +19,20 @@ from rest_framework.response import Response
 #             return User.objects.all().filter(id=self.kwargs['id'])
 
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def get_current_user(request):
-    serializer = UserDetailSerializer(request.user)
-    return Response(serializer.data)
+#@api_view(['GET'])
+# @permission_classes([IsAuthenticated])
+# def get_current_user(request):
+#     serializer = UserDetailSerializer(request.user)
+#     return Response(serializer.data)
+
+
+class userView(mixins.RetrieveModelMixin, APIView):
+    """ this is to get the  all the objects created by a  indiviual user through id"""
+    serializer_class = UserDetailSerializer
+    model = User
+    lookup_field='id'
+    @permission_classes([IsAuthenticated, IsAdminUser])
+    @api_view(['GET'])
+    def get_queryset(self, *args, **kwargs):
+        if self.kwargs['id']:
+            return User.objects.all().filter(user=self.kwargs['id'])
