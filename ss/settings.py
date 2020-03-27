@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'channels',
     'taggit',
     'taggit_serializer',
+    'user',
 
     ##packages
     'corsheaders',
@@ -145,6 +146,13 @@ DATABASES = {
 
 # DATABASES = {
 #     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
+# DATABASES = {
+#     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 #         'NAME': 'postgres',
 #         'USER': 'postgres',
@@ -219,6 +227,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 ##crisoy
 CRISPY_TEMPLATE_PACK="bootstrap4"
 SITE_ID = 1
+
+REST_USE_JWT = True
 # django all auth
 ACCOUNT_EMAIL_VERIFICATION="none"
 ACCOUNT_EMAIL_REQUIRED=(True)
@@ -235,8 +245,8 @@ JWT_AUTH = {
     'JWT_PAYLOAD_GET_USER_ID_HANDLER':
     'rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler',
 
-    'JWT_RESPONSE_PAYLOAD_HANDLER':
-    'rest_framework_jwt.utils.jwt_response_payload_handler',
+#    'JWT_RESPONSE_PAYLOAD_HANDLER':
+#    'rest_framework_jwt.utils.jwt_response_payload_handler',
 
     'JWT_SECRET_KEY': settings.SECRET_KEY,
     'JWT_GET_USER_SECRET_KEY': None,
@@ -256,20 +266,26 @@ JWT_AUTH = {
     'JWT_AUTH_HEADER_PREFIX': 'JWT',
     'JWT_AUTH_COOKIE': None,
 
+    #self created login handler
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'user.utils.custom_jwt_response_handler',
+
 }
 
 REST_FRAMEWORK={
-'DEFAULT_AUTHENTICATION_CLASSES':(
-'rest_framework.authentication.TokenAuthentication',
-# 'rest_framework.authentication.SessionAuthentication',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',  # django-oauth-toolkit >= 1.0.0
         'rest_framework_social_oauth2.authentication.SocialAuthentication',
-            'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ),
 
-
-),
-'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-'PAGE_SIZE': 200,
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAdminUser',
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 200,
 }
 # OAUTH2_PROVIDER = {
 #     'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore',
