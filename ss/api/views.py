@@ -22,8 +22,7 @@ import requests
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
-
-
+from django.utils.decorators import method_decorator
 from social_core.exceptions import MissingBackend, AuthTokenError, AuthForbidden
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
@@ -31,7 +30,7 @@ jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 #     queryset = User.objects.all()
 #     serializer_class = SignUpSerializer
 #     permission_classes = (IsAuthenticatedOrCreate,)
-@csrf_exempt
+@method_decorator(csrf_exempt, name='dispatch')
 class SocialLoginView(generics.GenericAPIView):
     """Log in using facebook"""
     serializer_class = SocialSerializer
