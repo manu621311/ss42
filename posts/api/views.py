@@ -54,7 +54,7 @@ class PostViewSet(viewsets.ModelViewSet):
         if already_exists:
             return Response({"details" : "Review already exists ! "}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return super(PostViewSet, self).create(request.user)
+            return super(PostViewSet, self).create(request)             
     def perform_create(self,serializer):
 
         serializer.save(author=self.request.user)
