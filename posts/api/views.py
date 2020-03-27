@@ -24,6 +24,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from django.db import close_old_connections
 from rest_framework import filters
+from rest_framework import status
 
 # from rest_framework.responseim
 # class UserViewSet(viewsets.ModelViewSet):
@@ -42,6 +43,18 @@ class PostViewSet(viewsets.ModelViewSet):
     serializer_class=Spost
     permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
     authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
+    def create(self, request):
+        url = request.data.get('url')
+        author = str(request.user)
+        filtered_url = Post.objects.filter(url=url)
+        already_exists = False
+        for each_url in filtered_url:
+            if each_url.author.username == author:
+                already_exists = True
+        if already_exists:
+            return Response({"details" : "Review already exists ! "}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return super(PostViewSet, self).create(request.user)
     def perform_create(self,serializer):
 
         serializer.save(author=self.request.user)
