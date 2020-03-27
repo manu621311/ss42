@@ -11,7 +11,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import permissions
 from rest_framework import viewsets
-from rest_framework.generics import get_object_or_404
+from rest_framework.generics import get_object_or_404,ListAPIView
+from posts.api import serializers
 from rest_framework.exceptions import ValidationError
 from posts.api.serializers import Spost
 from posts.models import Post
@@ -54,7 +55,7 @@ class PostViewSet(viewsets.ModelViewSet):
         if already_exists:
             return Response({"details" : "Review already exists ! "}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return super(PostViewSet, self).create(request)             
+            return super(PostViewSet, self).create(request)
     def perform_create(self,serializer):
 
         serializer.save(author=self.request.user)
