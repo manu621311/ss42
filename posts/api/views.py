@@ -124,7 +124,14 @@ class PostLikeView(APIView):
         serializer_context={"request":request}
         serializer=self.serializer_class(post,context=serializer_context)
         return Response(serializer.data,status=status.HTTP_200_OK)
-
+class userView(mixins.RetrieveModelMixin,ListAPIView):
+    """ this is to get the  all the objects created by a  indiviual user through id"""
+    serializer_class=serializers.UserDetailSerializer
+    # permission_classes=[IsOwnerOrReadOnly,permissions.IsAuthenticatedOrReadOnly]
+    lookup_field='id'
+    def get_queryset(self):
+        if self.kwargs['id']:
+            return Post.objects.all().filter(user=self.kwargs['id'])
 ###########
 # class Postsnippet(mixins.RetrieveModelMixin,
 #                     mixins.UpdateModelMixin,Spost
