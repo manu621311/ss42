@@ -29,7 +29,7 @@ class Post(models.Model):
     def __str__(self):
         return f'{self.content}'
     def get_absolute_url(self):
-        return reverse('post:post_detail' , kwargs={'post_id':post.id})
+        return reverse('post:post_detail' , kwargs={'post_id':Post.id})
     # def no_of_rating(self):
     #     ratings=Rating.objects.filter(Post=self)
     #     return len(ratings)
