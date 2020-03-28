@@ -270,12 +270,12 @@ JWT_AUTH = {
     'JWT_RESPONSE_PAYLOAD_HANDLER': 'user.utils.custom_jwt_response_handler',
 
 }
+        # 'rest_framework.authentication.SessionAuthentication',
 
 REST_FRAMEWORK={
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
-        # 'rest_framework.authentication.SessionAuthentication',
-        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',  # django-oauth-toolkit >= 1.0.0
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
         'rest_framework_social_oauth2.authentication.SocialAuthentication',
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ),
