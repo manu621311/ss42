@@ -43,19 +43,19 @@ class PostViewSet(viewsets.ModelViewSet):
 
     serializer_class=Spost
     permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
-    authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
-    def create(self, request):
-        url = request.data.get('url')
-        author = str(request.user)
-        filtered_url = Post.objects.filter(url=url)
-        already_exists = False
-        for each_url in filtered_url:
-            if each_url.author.username == author:
-                already_exists = True
-        if already_exists:
-            return Response({"details" : "Review already exists ! "}, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            return super(PostViewSet, self).create(request)
+    authentication_classes =(JSONWebTokenAuthentication)
+    # def create(self, request):
+    #     url = request.data.get('url')
+    #     author = str(request.user)
+    #     filtered_url = Post.objects.filter(url=url)
+    #     already_exists = False
+    #     for each_url in filtered_url:
+    #         if each_url.author.username == author:
+    #             already_exists = True
+    #     if already_exists:
+    #         return Response({"details" : "Review already exists ! "}, status=status.HTTP_400_BAD_REQUEST)
+    #     else:
+    #         return super(PostViewSet, self).create(request)
     def perform_create(self,serializer):
 
         serializer.save(author=self.request.user)
