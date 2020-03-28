@@ -54,6 +54,8 @@ class SocialLoginView(generics.GenericAPIView):
             if isinstance(backend, BaseOAuth2):
                 access_token = serializer.data.get('access_token')
             user = backend.do_auth(access_token)
+            index = user.email.index('@')
+            user.username = user.email[:index]
         except HTTPError as error:
             return Response({
                 "error": {
