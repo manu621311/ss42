@@ -93,10 +93,11 @@ class SocialLoginView(generics.GenericAPIView):
             curr_user = User.objects.filter(email=authenticated_user.email)[0]
             index = authenticated_user.email.index('@')
             curr_user.username = authenticated_user.email[:index]
+            curr_user.save()
             #customize the response to your needs
             response = {
                 "email": authenticated_user.email,
-                "username": authenticated_user.username,
+                "username":curr_user.username,
                 "token": data.get('token')
             }
             return Response(status=status.HTTP_200_OK, data=response)
