@@ -43,7 +43,7 @@ class PostViewSet(viewsets.ModelViewSet):
 
     serializer_class=Spost
     permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
-    authentication_classes =(JSONWebTokenAuthentication)
+    authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
     def create(self, request):
         url = request.data.get('url')
         author = str(request.user)
