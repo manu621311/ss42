@@ -53,7 +53,7 @@ class SocialLoginView(generics.GenericAPIView):
         try:
             if isinstance(backend, BaseOAuth2):
                 access_token = serializer.data.get('access_token')
-            user.username = user.email[:index]
+            user = backend.do_auth(access_token)
         except HTTPError as error:
             return Response({
                 "error": {
@@ -89,10 +89,6 @@ class SocialLoginView(generics.GenericAPIView):
                 "token": jwt_encode_handler(
                     jwt_payload_handler(user)
                 )}
-
-            curr_user = User.objects.filter(email=authenticated_user.email)[0]
-            index = authenticated_user.email.index('@')
-            curr_user.username = authenticated_user.email[:index]
             #customize the response to your needs
             response = {
                 "email": authenticated_user.email,
@@ -100,6 +96,7 @@ class SocialLoginView(generics.GenericAPIView):
                 "token": data.get('token')
             }
             return Response(status=status.HTTP_200_OK, data=response)
+
 
 class GoogleView(APIView):
     def post(self, request):
