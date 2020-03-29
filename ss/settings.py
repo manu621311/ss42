@@ -67,7 +67,7 @@ INSTALLED_APPS = [
     'channels',
     'taggit',
     'taggit_serializer',
-    'user',
+    'objects',
 
     ##packages
     'corsheaders',
@@ -262,12 +262,13 @@ JWT_AUTH = {
 
     'JWT_ALLOW_REFRESH': False,
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
+    # 'AUTH_HEADER_TYPES': ('Bearer','JWT'),
 
     'JWT_AUTH_HEADER_PREFIX': 'JWT',
     'JWT_AUTH_COOKIE': None,
 
     #self created login handler
-    'JWT_RESPONSE_PAYLOAD_HANDLER': 'user.utils.custom_jwt_response_handler',
+    # 'JWT_RESPONSE_PAYLOAD_HANDLER': 'user.utils.custom_jwt_response_handler',
 
 }
         # 'rest_framework.authentication.SessionAuthentication',
@@ -281,7 +282,6 @@ REST_FRAMEWORK={
     ),
 
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAdminUser',
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',

@@ -27,7 +27,7 @@ from accounts import views
 urlpatterns = [
     path('signup', views.signuppage),
     path('savedetails/',views.saveregistrationdetails,name='savedetails'),
-    path('user/', include('user.urls')),
+    path('user/', include('objects.api.urls')),
 
     path('admin/', admin.site.urls),
     # path('auth/',n_auth_token),
