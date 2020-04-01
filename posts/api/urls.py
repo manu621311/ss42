@@ -10,6 +10,8 @@ from posts.api import views
 from django.urls import path, include
 from rest_framework.routers import SimpleRouter,DefaultRouter
 
+from posts.models import Post
+
 
 from posts.api  import views
 router = DefaultRouter()
