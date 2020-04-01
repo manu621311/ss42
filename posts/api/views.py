@@ -33,6 +33,27 @@ from rest_framework import status
 #     # lookup_field="id"
 #     serializer_class=Suser
 
+class FakeViewSet(viewsets.ModelViewSet):
+
+    def get_queryset(self):
+        queryset = Post.objects.all()
+        tag = self.request.query_params.get('tagg', '')
+        # print(dir(self.request))
+        print(self.request.stream)
+
+        if tag:
+            filtered_ids = []
+            for post in queryset:
+                req_tag = post.tags.filter(name=tag)
+                if req_tag.exists():
+                    filtered_ids.append(post.id)
+            return queryset.filter(id__in=filtered_ids)
+        return queryset
+
+    serializer_class=Spost
+    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
+    authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
+
 class PostViewSet(viewsets.ModelViewSet):
     close_old_connections()
     queryset = Post.objects.all()
