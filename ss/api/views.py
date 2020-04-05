@@ -225,6 +225,7 @@ class SocialLoginView(generics.GenericAPIView):
 
 
 class GoogleView(APIView):
+    permission_classes = [permissions.AllowAny]
     def post(self, request):
         payload = {'access_token': request.data.get("token")}  # validate the token
         r = requests.get('https://www.googleapis.com/oauth2/v2/userinfo', params=payload)
@@ -246,7 +247,9 @@ class GoogleView(APIView):
             user.save()
 
         # token = RefreshToken.for_user(user)  # generate token without username & password
-
+        index = user.email.index('@')
+        user.username = user.email[:index]
+        user.save()
         payload = jwt_payload_handler(user)
         token = jwt_encode_handler(payload)
 
