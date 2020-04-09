@@ -30,6 +30,23 @@ class Post(models.Model):
         return f'{self.content}'
     def get_absolute_url(self):
         return reverse('post:post_detail' , kwargs={'post_id':Post.id})
+
+class Message(models.Model):
+    author=models.ForeignKey(User,on_delete=models.CASCADE,related_name="msg")
+    title=models.CharField(max_length=128,null=True,blank=True)
+    rate=models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(5)],default=True,null=True,blank=True)
+
+    # rating=models.IntegerField(null=True,blank=True)
+    content=models.TextField(null=True,blank=True)
+    review=models.CharField(max_length=250,null=True,blank=True)
+    # url=models.URLField(null=True,blank=True)
+    # voters = models.ManyToManyField(settings.AUTH_USER_MODEL,blank=True,related_name="post_voters")
+    tags = TaggableManager(blank=True)
+
+    def __str__(self):
+        return f'{self.content}'
+    def get_absolute_url(self):
+        return reverse('post:post_detail' , kwargs={'post_id':Post.id})
     # def no_of_rating(self):
     #     ratings=Rating.objects.filter(Post=self)
     #     return len(ratings)

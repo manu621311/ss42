@@ -1,5 +1,5 @@
-from .serializers import Spost
-from posts.models import Post
+from .serializers import Spost,Smessage
+from posts.models import Post,Message
 from rest_framework import mixins
 from rest_framework import generics
 from rest_framework import viewsets
@@ -77,6 +77,33 @@ class PostViewSet(viewsets.ModelViewSet):
             return Response({"details" : "Review already exists ! "}, status=status.HTTP_400_BAD_REQUEST)
         else:
             return super(PostViewSet, self).create(request)
+    def perform_create(self,serializer):
+
+        serializer.save(author=self.request.user)
+    close_old_connections()
+class MsgViewSet(viewsets.ModelViewSet):
+    close_old_connections()
+    queryset = Message.objects.all()
+    # lookup_field="id"
+    # search_fields = ['url']
+    # filter_backends = (filters.SearchFilter,)
+
+
+    serializer_class=Smessage
+    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
+    authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
+    # def create(self, request):
+    #     url = request.data.get('url')
+    #     author = str(request.user)
+    #     filtered_url = Post.objects.filter(url=url)
+    #     already_exists = False
+    #     for each_url in filtered_url:
+    #         if each_url.author.username == author:
+    #             already_exists = True
+    #     if already_exists:
+    #         return Response({"details" : "Review already exists ! "}, status=status.HTTP_400_BAD_REQUEST)
+    #     else:
+    #         return super(PostViewSet, self).create(request)
     def perform_create(self,serializer):
 
         serializer.save(author=self.request.user)

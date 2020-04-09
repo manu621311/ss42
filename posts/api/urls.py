@@ -17,6 +17,8 @@ from posts.api  import views
 router = DefaultRouter()
 
 router.register(r'post', views.PostViewSet)
+router.register(r'msg', views.MsgViewSet)
+
 router.register(r'tagg', views.FakeViewSet, Post)
 # router.register(r'ratings', views.RatingViewSet)
 # router.register(r'users', views.UserViewSet)
