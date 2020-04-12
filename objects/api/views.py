@@ -30,8 +30,8 @@ class PostListUser(generics.ListAPIView, APIView):
 class ProfileTags(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
-    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
-    authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
+    permission_classes =[IsAuthenticatedOrReadOnly]
+    authentication_classes =(JSONWebTokenAuthentication,TokenAuthentication)
 
 
     def create(self, request):
