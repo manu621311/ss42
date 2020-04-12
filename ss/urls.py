@@ -34,6 +34,7 @@ urlpatterns = [
 
     path('login', obtain_jwt_token, name='token_obtain_pair'),
 
+    path('chat/', include('chat.urls')),
 
 
     path('api/', include('posts.api.urls')),

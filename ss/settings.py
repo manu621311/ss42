@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'taggit',
     'taggit_serializer',
     'objects',
+    'chat',
 
     ##packages
     'corsheaders',
@@ -130,7 +131,7 @@ WSGI_APPLICATION = 'ss.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-#
+
 DATABASES = {
      'default': {
          'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -141,6 +142,12 @@ DATABASES = {
          'PORT': '',
      }
  }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': 'db.sqlite3',
+#     }
+# }
 
 #
 
