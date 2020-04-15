@@ -69,10 +69,11 @@ class Message(models.Model):
 #         unique_together =(( 'user' ,'Post'),)
 #         index_together =(( 'user' ,'Post'),)
 
-# class comments(models.Model):
-#     # created_at=models.DateTimeField(auto_now_add=True)
-#     content=models.CharField(max_length=128,default=True)
-#     post=models.ForeignKey(Post,on_delete=models.CASCADE,related_name="comments",default=True)
-#     author=models.ForeignKey(settings.AUTH_USER_MODEL,blank=True,default=True,on_delete=models.CASCADE)
-#     def __str__(self):
-#         return self.author.username
+class Comment(models.Model):
+    created_at=models.DateTimeField(auto_now_add=True)
+    content=models.CharField(max_length=128,default=True)
+    post=models.ForeignKey(Post,on_delete=models.CASCADE,related_name="comments",default=True)
+    author=models.ForeignKey(settings.AUTH_USER_MODEL,blank=True,default=True,on_delete=models.CASCADE)
+    def __str__(self):
+        return self.content
+
