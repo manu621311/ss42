@@ -3,6 +3,7 @@ from django.dispatch import receiver
 import requests
 from posts.models import Comment
 from .models import Notification
+from django.contrib.auth.models import User
 
 from django.shortcuts import get_object_or_404
 from posts.models import Comment, Post
@@ -21,11 +22,13 @@ def create_comment_notifications(comment_id):
         post = comment.post,
         receiver = comment.post.author,
         sender = comment.author,
-    )   
-    requests.get('http://localhost:3000/new/{}'.format(user_id))
+    )
+    url = f'http://localhost:3000/new/{comment.post.author.id}'
+    print(url)
+    requests.get(url)
 
 
-@receiver(post_save, sender=Comment, dispatch_uid='notification_coment_post_save')
+@receiver(post_save, sender=Comment, dispatch_uid='notification_comment_post_save')
 def notification_comment_post_save(sender, instance=None, created=None, **kwargs):
     if not created:
         return
