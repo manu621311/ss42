@@ -13,17 +13,19 @@ def create_comment_notifications(comment_id):
         comment = Comment.objects.get(id=comment_id)
     except model.DoesNotExist:
         comment = None
-    
+
     if not comment:
         return
-    
+
     notification = Notification.objects.create(
         content = f'{comment.author} commented on your post.',
         post = comment.post,
         receiver = comment.post.author,
         sender = comment.author,
     )
-    url = f'http://localhost:3000/new/{comment.post.author.id}'
+    # url = f'http://localhost:3000/new/{comment.post.author.id}'
+    url = f'http://3.7.100.250:3000/new/{comment.post.author.id}'
+
     print(url)
     requests.get(url)
 
@@ -34,6 +36,3 @@ def notification_comment_post_save(sender, instance=None, created=None, **kwargs
         return
 
     create_comment_notifications(instance.id)
-
-
-    
