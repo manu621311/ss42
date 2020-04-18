@@ -25,6 +25,7 @@ class Post(models.Model):
     url=models.URLField(null=True,blank=True)
     voters = models.ManyToManyField(settings.AUTH_USER_MODEL,blank=True,related_name="post_voters")
     tags = TaggableManager(blank=True)
+    comments=models.ManyToManyField('Comment',blank=True,related_name="comments_post")
 
     def __str__(self):
         return f'{self.content}'
@@ -72,8 +73,7 @@ class Message(models.Model):
 class Comment(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
     content=models.CharField(max_length=128,default=True)
-    post=models.ForeignKey(Post,on_delete=models.CASCADE,related_name="comments",default=True)
+    post=models.ForeignKey(Post,on_delete=models.CASCADE,related_name="post_comments",default=True)
     author=models.ForeignKey(settings.AUTH_USER_MODEL,blank=True,default=True,on_delete=models.CASCADE)
     def __str__(self):
         return self.content
-

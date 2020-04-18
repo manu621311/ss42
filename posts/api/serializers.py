@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from posts.models import Post,Message
+from posts.models import Post,Message,Comment
 from django.contrib.auth.models import User
 from taggit_serializer.serializers import (TagListSerializerField,
                                            TaggitSerializer)
@@ -33,17 +33,23 @@ class UserDetailSerializer(serializers.ModelSerializer):
                 'author',
                 'review',
                 ]
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Comment
+        fields='__all__'
 class Spost(TaggitSerializer,serializers.ModelSerializer):
     tags = TagListSerializerField()
 
     author=serializers.StringRelatedField(read_only=True)
+    # comments= CommentSerializer(read_only=True)
     # likes_count=serializers.SerializerMethodField(read_only=True)
     # user_has_voted=serializers.SerializerMethodField(read_only=True)
     ## for string related field without displaying it as numerics , it displays the direct object of that object"
     # user=Scomments()
     class Meta:
         model = Post
-        fields = ('id','title','rate','author','content','review','url','tags')
+        fields = ('id','title','rate','author','content','review','url','tags','comments')
     def get_likes_count(self,instance):
         return instance.voters.count()
     def get_user_has_voted(self,instance):
