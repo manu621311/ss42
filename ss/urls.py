@@ -35,6 +35,7 @@ urlpatterns = [
     path('login', obtain_jwt_token, name='token_obtain_pair'),
 
     path('notification/', include('notification.urls')),
+    path('notification/api/', include('notification.api.urls')),
 
     path('api/', include('posts.api.urls')),
     # path('api-auth/', include('rest_framework.urls')),
