@@ -26,6 +26,7 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from django.db import close_old_connections
 from rest_framework import filters
 from rest_framework import status
+from rest_framework.parsers import FileUploadParser
 
 # from rest_framework.responseim
 # class UserViewSet(viewsets.ModelViewSet):
@@ -103,6 +104,8 @@ class PostViewSet(viewsets.ModelViewSet):
     close_old_connections()
 class MsgViewSet(viewsets.ModelViewSet):
     close_old_connections()
+    parser_class = (FileUploadParser,)
+
     queryset = Message.objects.all()
     # lookup_field="id"
     # search_fields = ['url']

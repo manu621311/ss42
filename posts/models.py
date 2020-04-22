@@ -35,7 +35,7 @@ class Post(models.Model):
 class Message(models.Model):
     author=models.ForeignKey(User,on_delete=models.CASCADE,related_name="msg")
     title=models.CharField(max_length=128,null=True,blank=True)
-    # picture=models.ImageField(upload_to='fake_picture',max_length=255,null=True,blank=True)
+    picture=models.ImageField(upload_to='fake_picture',max_length=255,null=True,blank=True)
     rate=models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(5)],default=True,null=True,blank=True)
 
     # rating=models.IntegerField(null=True,blank=True)
@@ -43,7 +43,7 @@ class Message(models.Model):
     review=models.CharField(max_length=250,null=True,blank=True)
     # url=models.URLField(null=True,blank=True)
     # voters = models.ManyToManyField(settings.AUTH_USER_MODEL,blank=True,related_name="post_voters")
-    tags = TaggableManager(blank=True)
+    # tags = TaggableManager(blank=True)
 
     def __str__(self):
         return f'{self.content}'

@@ -72,7 +72,7 @@ class Spost(TaggitSerializer,serializers.ModelSerializer):
         request=self.context.get("request")
         return instance.voters.filter(pk=request.user.pk).exists()
 class Smessage(TaggitSerializer,serializers.ModelSerializer):
-    tags = TagListSerializerField()
+    # tags = TagListSerializerField()
 
     author=serializers.StringRelatedField(read_only=True)
     # likes_count=serializers.SerializerMethodField(read_only=True)
@@ -81,7 +81,7 @@ class Smessage(TaggitSerializer,serializers.ModelSerializer):
     # user=Scomments()
     class Meta:
         model = Message
-        fields = ('id','title','rate','author','content','review','tags')
+        fields = ('id','title','rate','author','content','review','picture')
     def get_likes_count(self,instance):
         return instance.voters.count()
     def get_user_has_voted(self,instance):
