@@ -35,9 +35,25 @@ class UserDetailSerializer(serializers.ModelSerializer):
                 ]
 
 class CommentSerializer(serializers.ModelSerializer):
+    author = serializers.StringRelatedField(read_only=True)
+    post   = serializers.StringRelatedField(read_only=True)
     class Meta:
         model=Comment
         fields='__all__'
+
+class PostSerializer(TaggitSerializer,serializers.ModelSerializer):
+    tags = TagListSerializerField(required=False)
+    author = serializers.StringRelatedField(read_only=True)
+    comments = CommentSerializer(many=True, required=False)
+    class Meta:
+        model = Post
+        fields = ('id','title','rate','author','content','review','url','tags', 'comments')
+    def get_likes_count(self,instance):
+        return instance.voters.count()
+    def get_user_has_voted(self,instance):
+        request=self.context.get("request")
+        return instance.voters.filter(pk=request.user.pk).exists()
+
 class Spost(TaggitSerializer,serializers.ModelSerializer):
     tags = TagListSerializerField()
 
