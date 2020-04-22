@@ -1,5 +1,5 @@
-from .serializers import Spost,Smessage
-from posts.models import Post,Message
+from .serializers import Spost,Smessage, PostSerializer, CommentSerializer
+from posts.models import Post,Message, Comment
 from rest_framework import mixins
 from rest_framework import generics
 from rest_framework import viewsets
@@ -54,17 +54,38 @@ class FakeViewSet(viewsets.ModelViewSet):
     permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
     authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
 
+class CommentViewSet(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
+    authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
+
+    def perform_create(self, serializer):
+        post_id = self.request.data.get('post_id')
+        post = Post.objects.get(id=post_id)
+        content = self.request.data.get('content')
+
+        serializer.save(
+            author = self.request.user,
+            post = Post.objects.get(id=post_id)
+        )
+        comment = Comment.objects.filter(content=content)[0]
+        post.comments.add(comment)
+        post.save()
+
+
 class PostViewSet(viewsets.ModelViewSet):
     close_old_connections()
     queryset = Post.objects.all()
     # lookup_field="id"
     search_fields = ['url']
     filter_backends = (filters.SearchFilter,)
-
-
-    serializer_class=Spost
+    # serializer_class=Spost
+    serializer_class = PostSerializer
     permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
     authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
+
+
     def create(self, request):
         url = request.data.get('url')
         author = str(request.user)
@@ -78,7 +99,6 @@ class PostViewSet(viewsets.ModelViewSet):
         else:
             return super(PostViewSet, self).create(request)
     def perform_create(self,serializer):
-
         serializer.save(author=self.request.user)
     close_old_connections()
 class MsgViewSet(viewsets.ModelViewSet):
