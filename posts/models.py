@@ -35,7 +35,7 @@ class Post(models.Model):
 class Message(models.Model):
     author=models.ForeignKey(User,on_delete=models.CASCADE,related_name="msg")
     title=models.CharField(max_length=128,null=True,blank=True)
-    picture=models.ImageField(upload_to='fake_picture',max_length=255,null=True,blank=True)
+    # picture=models.ImageField(upload_to='fake_picture',max_length=255,null=True,blank=True)
     rate=models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(5)],default=True,null=True,blank=True)
 
     # rating=models.IntegerField(null=True,blank=True)
@@ -49,7 +49,11 @@ class Message(models.Model):
         return f'{self.content}'
     def get_absolute_url(self):
         return reverse('post:post_detail' , kwargs={'post_id':Post.id})
+class Img(models.Model):
+    picture=models.ImageField(upload_to='fake_picture',null=True,blank=True)
+
     # def no_of_rating(self):
+
     #     ratings=Rating.objects.filter(Post=self)
     #     return len(ratings)
     # def avg_rating(self):

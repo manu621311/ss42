@@ -20,6 +20,8 @@ router = DefaultRouter()
 
 router.register(r'post', views.PostViewSet)
 router.register(r'msg', views.MsgViewSet)
+router.register(r'img', views.ImgViewSet)
+
 router.register(r'comments', views.CommentViewSet, Comment)
 router.register(r'tagg', views.FakeViewSet, Post)
 # router.register(r'ratings', views.RatingViewSet)

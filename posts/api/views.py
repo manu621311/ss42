@@ -1,5 +1,5 @@
-from .serializers import Spost,Smessage, PostSerializer, CommentSerializer
-from posts.models import Post,Message, Comment
+from .serializers import Spost,Smessage, PostSerializer, CommentSerializer,ImgSerializer
+from posts.models import Post,Message, Comment,Img
 from rest_framework import mixins
 from rest_framework import generics
 from rest_framework import viewsets
@@ -102,9 +102,22 @@ class PostViewSet(viewsets.ModelViewSet):
     def perform_create(self,serializer):
         serializer.save(author=self.request.user)
     close_old_connections()
-class MsgViewSet(viewsets.ModelViewSet):
+class ImgViewSet(viewsets.ModelViewSet):
     close_old_connections()
     parser_class = (FileUploadParser,)
+
+    queryset = Img.objects.all()
+    # lookup_field="id"
+    # search_fields = ['url']
+    # filter_backends = (filters.SearchFilter,)
+
+
+    serializer_class=ImgSerializer
+    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
+    authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
+class MsgViewSet(viewsets.ModelViewSet):
+    close_old_connections()
+    # parser_class = (FileUploadParser,)
 
     queryset = Message.objects.all()
     # lookup_field="id"

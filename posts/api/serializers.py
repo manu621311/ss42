@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from posts.models import Post,Message,Comment
+from posts.models import Post,Message,Comment,Img
 from django.contrib.auth.models import User
 from taggit_serializer.serializers import (TagListSerializerField,
                                            TaggitSerializer)
@@ -34,6 +34,12 @@ class UserDetailSerializer(serializers.ModelSerializer):
                 'review',
                 ]
 
+class ImgSerializer(serializers.ModelSerializer):
+    # author = serializers.StringRelatedField(read_only=True)
+    # post   = serializers.StringRelatedField(read_only=True)
+    class Meta:
+        model=Img
+        fields='__all__'
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
     post   = serializers.StringRelatedField(read_only=True)
