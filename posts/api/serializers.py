@@ -53,7 +53,7 @@ class PostSerializer(TaggitSerializer,serializers.ModelSerializer):
     comments = CommentSerializer(many=True, required=False)
     class Meta:
         model = Post
-        fields = ('id','title','rate','author','content','review','url','tags', 'comments')
+        fields = ('id','title','rate','author','content','review','url','tags', 'comments', 'created_at')
     def get_likes_count(self,instance):
         return instance.voters.count()
     def get_user_has_voted(self,instance):
@@ -87,7 +87,7 @@ class Smessage(TaggitSerializer,serializers.ModelSerializer):
     # user=Scomments()
     class Meta:
         model = Message
-        fields = ('id','title','rate','author','content','review','picture')
+        fields = ('id','title','rate','author','content','review','picture', 'created_at')
     def get_likes_count(self,instance):
         return instance.voters.count()
     def get_user_has_voted(self,instance):

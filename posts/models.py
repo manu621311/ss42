@@ -15,6 +15,7 @@ User = get_user_model()
 
 
 class Post(models.Model):
+    created_at=models.DateTimeField(auto_now_add=True)
     author=models.ForeignKey(User,on_delete=models.CASCADE,related_name="post")
     title=models.CharField(max_length=128,null=True,blank=True)
     rate=models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(5)],default=True,null=True,blank=True)
@@ -33,6 +34,7 @@ class Post(models.Model):
         return reverse('post:post_detail' , kwargs={'post_id':Post.id})
 
 class Message(models.Model):
+    created_at=models.DateTimeField(auto_now_add=True)
     author=models.ForeignKey(User,on_delete=models.CASCADE,related_name="msg")
     title=models.CharField(max_length=128,null=True,blank=True)
     # picture=models.ImageField(upload_to='fake_picture',max_length=255,null=True,blank=True)
@@ -50,6 +52,7 @@ class Message(models.Model):
     def get_absolute_url(self):
         return reverse('post:post_detail' , kwargs={'post_id':Post.id})
 class Img(models.Model):
+    created_at=models.DateTimeField(auto_now_add=True)
     picture=models.ImageField(upload_to='fake_picture',null=True,blank=True)
 
     # def no_of_rating(self):
