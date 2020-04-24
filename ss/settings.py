@@ -135,16 +135,16 @@ WSGI_APPLICATION = 'ss.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 #
-# DATABASES = {
-#      'default': {
-#          'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#          'NAME': 'scrapshut',
-#          'USER': 'db_user',
-#          'PASSWORD': 'pass',
-#          'HOST': 'localhost',
-#          'PORT': '',
-#      }
-#  }
+DATABASES = {
+     'default': {
+         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+         'NAME': 'scrapshut',
+         'USER': 'db_user',
+         'PASSWORD': 'pass',
+         'HOST': 'localhost',
+         'PORT': '',
+     }
+ }
 
 #
 
@@ -155,16 +155,16 @@ WSGI_APPLICATION = 'ss.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'mynameisFB1987',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'postgres',
+#         'USER': 'postgres',
+#         'PASSWORD': '',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
 
 # CHANNEL_LAYERS = {
 #     "default": {
