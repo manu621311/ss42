@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .serializers import UserDetailSerializer, ProfileSerializer
+from .serializers import UserDetailSerializer, ProfileSerializer, UserProfileSerializer
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser,AllowAny
 from rest_framework import mixins, generics
@@ -17,6 +17,11 @@ from rest_framework import permissions
 from rest_framework import status
 from posts.api.permissions import IsAuthorOrReadOnly
 
+
+class UserProfile(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserProfileSerializer
+    permission_classes = [AllowAny]
 
 class PostListUser(generics.ListAPIView, APIView):
     serializer_class = UserDetailSerializer

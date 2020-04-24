@@ -22,3 +22,8 @@ class ProfileSerializer(TaggitSerializer, serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ('username', 'tags')
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username')
