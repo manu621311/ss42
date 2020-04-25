@@ -15,6 +15,9 @@ User = get_user_model()
 
 
 class Post(models.Model):
+
+    # created_at=models.DateTimeField(efault=datetime.now, blank=True)
+
     created_at=models.DateTimeField(auto_now_add=True)
     author=models.ForeignKey(User,on_delete=models.CASCADE,related_name="post")
     title=models.CharField(max_length=128,null=True,blank=True)

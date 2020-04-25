@@ -87,7 +87,7 @@ class Smessage(TaggitSerializer,serializers.ModelSerializer):
     # user=Scomments()
     class Meta:
         model = Message
-        fields = ('id','title','rate','author','content','review','picture', 'created_at')
+        fields = ('id','title','rate','author','content','review', 'created_at')
     def get_likes_count(self,instance):
         return instance.voters.count()
     def get_user_has_voted(self,instance):
