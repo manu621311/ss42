@@ -81,7 +81,6 @@ INSTALLED_APPS = [
     'rest_auth',
     'rest_auth.registration',
     'crispy_forms',
-    'reset_migrations',
 
     'webpack_loader',
    'oauth2_provider',
