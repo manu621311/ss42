@@ -162,7 +162,7 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 100000000
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 #         'NAME': 'postgres',
 #         'USER': 'postgres',
-#         'PASSWORD': 'mynameisFB1987',
+#         'PASSWORD': '',
 #         'HOST': 'localhost',
 #         'PORT': '',
 #     }
