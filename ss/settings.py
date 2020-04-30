@@ -157,16 +157,16 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 100000000
 #     }
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'postgres',
-#         'USER': 'postgres',
-#         'PASSWORD': '',
-#         'HOST': 'localhost',
-#         'PORT': '',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'mynameisFB1987',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
 
 # CHANNEL_LAYERS = {
 #     "default": {
