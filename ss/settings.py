@@ -135,27 +135,27 @@ WSGI_APPLICATION = 'ss.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 #
-DATABASES = {
-     'default': {
-         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-         'NAME': 'scrapshut',
-         'USER': 'db_user',
-         'PASSWORD': 'pass',
-         'HOST': 'localhost',
-         'PORT': '',
-     }
- }
+# DATABASES = {
+#      'default': {
+#          'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#          'NAME': 'scrapshut',
+#          'USER': 'db_user',
+#          'PASSWORD': 'pass',
+#          'HOST': 'localhost',
+#          'PORT': '',
+#      }
+#  }
 # DATA_UPLOAD_MAX_NUMBER_FIELDS = 100240 # higher than the count of fields
 DATA_UPLOAD_MAX_MEMORY_SIZE = 100000000
 
 #
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
 # DATABASES = {
 #     'default': {

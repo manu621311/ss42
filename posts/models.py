@@ -56,6 +56,7 @@ class Message(models.Model):
         return reverse('post:post_detail' , kwargs={'post_id':Post.id})
 class Img(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
+    author=models.ForeignKey(User,on_delete=models.CASCADE,related_name="img")
     picture=models.ImageField(upload_to='fake_picture',null=True,blank=True)
 
     # def no_of_rating(self):
