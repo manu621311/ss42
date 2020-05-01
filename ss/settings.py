@@ -140,7 +140,7 @@ WSGI_APPLICATION = 'ss.wsgi.application'
 #      'default': {
 #          'ENGINE': 'django.db.backends.postgresql_psycopg2',
 #          'NAME': 'scrapshut',
-#          'USER': 'db_user',
+#          'USER': 'postgres',
 #          'PASSWORD': 'pass',
 #          'HOST': 'localhost',
 #          'PORT': '',

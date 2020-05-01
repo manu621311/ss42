@@ -103,9 +103,9 @@ class PostViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user)
     close_old_connections()
 class ImgViewSet(viewsets.ModelViewSet):
-    close_old_connections()
     parser_class = (FileUploadParser,)
-
+    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
+    authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
     queryset = Img.objects.all()
     # lookup_field="id"
     # search_fields = ['url']
@@ -113,8 +113,7 @@ class ImgViewSet(viewsets.ModelViewSet):
 
 
     serializer_class=ImgSerializer
-    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
-    authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
+
 class MsgViewSet(viewsets.ModelViewSet):
     close_old_connections()
     # parser_class = (FileUploadParser,)
