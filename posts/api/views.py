@@ -38,18 +38,40 @@ class FakeViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = Post.objects.all()
-        tag = self.request.query_params.get('tagg', '')
-        # print(dir(self.request))
+        tags = []
+        tag1 = self.request.query_params.get('tag1', '')
+        tags.append(tag1)
+        tag2 = self.request.query_params.get('tag2', '')
+        tags.append(tag2)
+        tag3 = self.request.query_params.get('tag3', '')
+        tags.append(tag3)
+        tag4 = self.request.query_params.get('tag4', '')
+        tags.append(tag4)
+        tag5 = self.request.query_params.get('tag5', '')
+        tags.append(tag5)
+        tag6 = self.request.query_params.get('tag6', '')
+        tags.append(tag6)
+        tag7 = self.request.query_params.get('tag7', '')
+        tags.append(tag7)
+        tag8 = self.request.query_params.get('tag8', '')
+        tags.append(tag8)
+        tag9 = self.request.query_params.get('tag9', '')
+        tags.append(tag9)
+        tag10 = self.request.query_params.get('tag10', '')
+        tags.append(tag10)
+        print(tags)
         print(self.request.stream)
 
-        if tag:
-            filtered_ids = []
-            for post in queryset:
-                req_tag = post.tags.filter(name=tag)
-                if req_tag.exists():
-                    filtered_ids.append(post.id)
-            return queryset.filter(id__in=filtered_ids)
-        return queryset
+        filtered_ids = []
+        for tag in tags:
+            if tag:
+
+                for post in queryset:
+                    req_tag = post.tags.filter(name=tag)
+                    # print(req_tag)
+                    if req_tag.exists():
+                        filtered_ids.append(post.id)
+        return queryset.filter(id__in=filtered_ids)
 
     serializer_class=Spost
     permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
@@ -113,6 +135,11 @@ class ImgViewSet(viewsets.ModelViewSet):
 
 
     serializer_class=ImgSerializer
+
+    def perform_create(self,serializer):
+        print(self.request.user.username)
+        print(self.request.user.id)
+        serializer.save(author=self.request.user)
 
 class MsgViewSet(viewsets.ModelViewSet):
     close_old_connections()

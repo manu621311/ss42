@@ -35,11 +35,12 @@ class UserDetailSerializer(serializers.ModelSerializer):
                 ]
 
 class ImgSerializer(serializers.ModelSerializer):
-    # author = serializers.StringRelatedField(read_only=True)
+    author = serializers.StringRelatedField(read_only=True)
     # post   = serializers.StringRelatedField(read_only=True)
     class Meta:
         model=Img
         fields='__all__'
+
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
     post   = serializers.StringRelatedField(read_only=True)

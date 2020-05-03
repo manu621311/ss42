@@ -23,7 +23,7 @@ router.register(r'msg', views.MsgViewSet)
 router.register(r'img', views.ImgViewSet)
 
 router.register(r'comments', views.CommentViewSet, Comment)
-router.register(r'tagg', views.FakeViewSet, Post)
+router.register(r'tags', views.FakeViewSet, Post)
 # router.register(r'ratings', views.RatingViewSet)
 # router.register(r'users', views.UserViewSet)
 
