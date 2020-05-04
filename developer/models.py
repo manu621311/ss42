@@ -10,7 +10,7 @@ class Developers(models.Model):
     city = models.CharField(max_length=100, null=False)
     country = models.CharField(max_length=255, null=False)
     description = models.TextField(max_length=1024, null=False)
-    token = models.CharField(max_length=75, null=True)
+    token = models.TextField(max_length=1024, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
