@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'taggit_serializer',
     'objects',
     'notification',
+    'developer',
 
     ##packages
     'corsheaders',
@@ -127,7 +128,11 @@ TEMPLATES = [
     },
 ]
 
-
+# EMAIL_HOST = 
+# EMAIL_PORT = 
+# EMAIL_HOST_USER = 
+# EMAIL_HOST_PASSWORD =
+# EMAIL_USE_SSL = True
 
 WSGI_APPLICATION = 'ss.wsgi.application'
 

@@ -33,7 +33,7 @@ urlpatterns = [
     # path('auth/',n_auth_token),
 
     path('login', obtain_jwt_token, name='token_obtain_pair'),
-
+    path('dev/', include('developer.urls')),
     path('notification/', include('notification.urls')),
     path('notification/api/', include('notification.api.urls')),
 

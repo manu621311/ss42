@@ -8,11 +8,11 @@
 from objects.api import views
 from django.urls import path,include,re_path
 from django.conf.urls import url
+
 urlpatterns = [
     url('^me/$', views.PostListUser.as_view()),
     path('profile/', views.ProfileTags.as_view({'get': 'list', 'post': 'create', 'put': 'update'})),
     path('all/', views.UserProfile.as_view({'get': 'list'})),
-
 
 
 

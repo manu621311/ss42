@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from django.shortcuts import render
 from .serializers import UserDetailSerializer, ProfileSerializer, UserProfileSerializer
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser,AllowAny
@@ -16,6 +17,8 @@ from rest_framework import viewsets
 from rest_framework import permissions
 from rest_framework import status
 from posts.api.permissions import IsAuthorOrReadOnly
+
+
 
 
 class UserProfile(viewsets.ModelViewSet):
