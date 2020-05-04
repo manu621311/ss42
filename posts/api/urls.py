@@ -10,7 +10,7 @@ from posts.api import views
 from django.urls import path, include
 from rest_framework.routers import SimpleRouter,DefaultRouter
 
-from posts.models import Post, Comment
+from posts.models import Post, Comment, Message, Img
 
 from django.conf import settings
 from posts.api  import views
@@ -23,7 +23,9 @@ router.register(r'msg', views.MsgViewSet)
 router.register(r'img', views.ImgViewSet)
 
 router.register(r'comments', views.CommentViewSet, Comment)
-router.register(r'tags', views.FakeViewSet, Post)
+router.register(r'ptags', views.SortedPostViewSet, Post)
+router.register(r'mtags', views.SortedMessageViewSet, Message)
+router.register(r'itags', views.SortedImageViewSet, Img)
 # router.register(r'ratings', views.RatingViewSet)
 # router.register(r'users', views.UserViewSet)
 
