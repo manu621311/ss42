@@ -35,7 +35,8 @@ class UserDetailSerializer(serializers.ModelSerializer):
                 ]
 
 class ImgSerializer(serializers.ModelSerializer):
-    # author = serializers.StringRelatedField(read_only=True)
+    tags = TagListSerializerField(required=False)
+    author = serializers.StringRelatedField(read_only=True)
     # post   = serializers.StringRelatedField(read_only=True)
     class Meta:
         model=Img
@@ -77,9 +78,9 @@ class Spost(TaggitSerializer,serializers.ModelSerializer):
     def get_user_has_voted(self,instance):
         request=self.context.get("request")
         return instance.voters.filter(pk=request.user.pk).exists()
-class Smessage(TaggitSerializer,serializers.ModelSerializer):
-    # tags = TagListSerializerField()
 
+class Smessage(TaggitSerializer,serializers.ModelSerializer):
+    tags = TagListSerializerField(required=False)
     author=serializers.StringRelatedField(read_only=True)
     # likes_count=serializers.SerializerMethodField(read_only=True)
     # user_has_voted=serializers.SerializerMethodField(read_only=True)
@@ -87,7 +88,7 @@ class Smessage(TaggitSerializer,serializers.ModelSerializer):
     # user=Scomments()
     class Meta:
         model = Message
-        fields = ('id','title','rate','author','content','review', 'created_at')
+        fields = ('id','title','rate','author','content','review', 'created_at', 'tags')
     def get_likes_count(self,instance):
         return instance.voters.count()
     def get_user_has_voted(self,instance):
