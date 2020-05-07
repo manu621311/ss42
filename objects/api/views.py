@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.shortcuts import render
-from .serializers import UserDetailSerializer, ProfileSerializer, UserProfileSerializer
+from .serializers import UserDetailSerializer, ProfileSerializer, UserImgProfileSerializer, UserPostProfileSerializer, UserMsgProfileSerializer
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser,AllowAny
 from rest_framework import mixins, generics
@@ -21,10 +21,30 @@ from posts.api.permissions import IsAuthorOrReadOnly
 
 
 
-class UserProfile(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserProfileSerializer
+class UserImgProfile(viewsets.ViewSet):
     permission_classes = [AllowAny]
+    def list(self, request):
+        queryset = User.objects.all()
+        serializer = UserImgProfileSerializer(queryset, many=True)
+        serializer_data = sorted(serializer.data, key=lambda k: k['img_count'], reverse=True)[:3]
+        return Response(serializer_data)
+
+class UserMsgProfile(viewsets.ViewSet):
+    permission_classes = [AllowAny]
+    def list(self, request):
+        queryset = User.objects.all()
+        serializer = UserMsgProfileSerializer(queryset, many=True)
+        serializer_data = sorted(serializer.data, key=lambda k: k['msg_count'], reverse=True)
+        return Response(serializer_data)
+
+class UserPostProfile(viewsets.ViewSet):
+    permission_classes = [AllowAny]
+    def list(self, request):
+        queryset = User.objects.all()
+        serializer = UserPostProfileSerializer(queryset, many=True)
+        serializer_data = sorted(serializer.data, key=lambda k: k['post_count'], reverse=True)
+        return Response(serializer_data)
+    
 
 class PostListUser(generics.ListAPIView, APIView):
     serializer_class = UserDetailSerializer

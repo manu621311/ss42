@@ -12,7 +12,9 @@ from django.conf.urls import url
 urlpatterns = [
     url('^me/$', views.PostListUser.as_view()),
     path('profile/', views.ProfileTags.as_view({'get': 'list', 'post': 'create', 'put': 'update'})),
-    path('all/', views.UserProfile.as_view({'get': 'list'})),
+    path('all/img', views.UserImgProfile.as_view({'get': 'list'})),
+    path('all/msg', views.UserMsgProfile.as_view({'get': 'list'})),
+    path('all/post', views.UserPostProfile.as_view({'get': 'list'})),
 
 
 
