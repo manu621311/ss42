@@ -151,7 +151,7 @@ DATABASES = {
          'PORT': '',
      }
  }
-# DATA_UPLOAD_MAX_NUMBER_FIELDS = 100240 # higher than the count of fields
+# # DATA_UPLOAD_MAX_NUMBER_FIELDS = 100240 # higher than the count of fields
 DATA_UPLOAD_MAX_MEMORY_SIZE = 100000000
 
 #
