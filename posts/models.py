@@ -46,6 +46,7 @@ class Message(models.Model):
     # rating=models.IntegerField(null=True,blank=True)
     content=models.TextField(null=True,blank=True)
     review=models.CharField(max_length=250,null=True,blank=True)
+    tags = TaggableManager(blank=True)
     # url=models.URLField(null=True,blank=True)
     # voters = models.ManyToManyField(settings.AUTH_USER_MODEL,blank=True,related_name="post_voters")
     # tags = TaggableManager(blank=True)
@@ -58,6 +59,7 @@ class Img(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
     author=models.ForeignKey(User,on_delete=models.CASCADE,related_name="img")
     picture=models.ImageField(upload_to='fake_picture',null=True,blank=True)
+    tags = TaggableManager(blank=True)
 
     # def no_of_rating(self):
 
