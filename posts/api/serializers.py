@@ -36,7 +36,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
 
 class ImgSerializer(serializers.ModelSerializer):
     tags = TagListSerializerField(required=False)
-    author = serializers.StringRelatedField(read_only=True)
+    author = serializers.StringRelatedField()
     # post   = serializers.StringRelatedField(read_only=True)
     class Meta:
         model=Img
