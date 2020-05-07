@@ -34,7 +34,7 @@ class UserMsgProfile(viewsets.ViewSet):
     def list(self, request):
         queryset = User.objects.all()
         serializer = UserMsgProfileSerializer(queryset, many=True)
-        serializer_data = sorted(serializer.data, key=lambda k: k['msg_count'], reverse=True)
+        serializer_data = sorted(serializer.data, key=lambda k: k['msg_count'], reverse=True)[:3]
         return Response(serializer_data)
 
 class UserPostProfile(viewsets.ViewSet):
@@ -42,7 +42,7 @@ class UserPostProfile(viewsets.ViewSet):
     def list(self, request):
         queryset = User.objects.all()
         serializer = UserPostProfileSerializer(queryset, many=True)
-        serializer_data = sorted(serializer.data, key=lambda k: k['post_count'], reverse=True)
+        serializer_data = sorted(serializer.data, key=lambda k: k['post_count'], reverse=True)[:3]
         return Response(serializer_data)
     
 
