@@ -10,6 +10,7 @@ def get_jwt(user):
     payload = jwt_payload_handler(user)
     return jwt_encode_handler(payload)
 
+
 class SaveToken(View):
     def get(self, request):
         return render(request, 'developer/test.html')
