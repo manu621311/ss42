@@ -34,7 +34,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
                 'review',
                 ]
 
-class ImgSerializer(serializers.ModelSerializer):
+class ImgSerializer(TaggitSerializer,serializers.ModelSerializer):
     tags = TagListSerializerField(required=False)
     author = serializers.StringRelatedField()
     # post   = serializers.StringRelatedField(read_only=True)
