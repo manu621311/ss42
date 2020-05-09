@@ -21,7 +21,7 @@ class ProfileSerializer(TaggitSerializer, serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ('username', 'tags')
+        fields = ('username', 'tags', 'Scrapcoins')
 
 class UserImgProfileSerializer(serializers.ModelSerializer):
     img_count = serializers.SerializerMethodField('get_img_count')
