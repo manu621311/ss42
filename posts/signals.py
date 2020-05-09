@@ -43,7 +43,28 @@ def inc_scoin_img(post_id):
         obj = Profile.objects.create(
             username=img.author.username,
             tags = [""],
-            Scrapcoins = 1
+            Scrapcoins = 3
+            )
+
+def inc_scoin_msg(post_id):
+    try:
+        msg = Message.objects.get(id=post_id)
+    except:
+        msg = None
+    
+    if not msg:
+        return
+
+    try:
+        obj = Profile.objects.get(username=msg.author.username)
+        val = obj.Scrapcoins
+        obj.Scrapcoins = val + 3
+        obj.save()
+    except:
+        obj = Profile.objects.create(
+            username=msg.author.username,
+            tags = [""],
+            Scrapcoins = 3
             )
 
 
@@ -60,3 +81,10 @@ def img_scoin_inc(sender, instance=None, created=None, **kwargs):
         return
 
     inc_scoin_img(instance.id)
+
+@receiver(post_save, sender=Message, dispatch_uid='msg_scoin_inc')
+def msg_scoin_inc(sender, instance=None, created=None, **kwargs):
+    if not created:
+        return
+
+    inc_scoin_msg(instance.id)
