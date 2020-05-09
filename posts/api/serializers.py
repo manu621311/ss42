@@ -82,7 +82,7 @@ class PostSerializer_read(TaggitSerializer,serializers.ModelSerializer):
     comments = CommentSerializer(many=True, required=False)
     class Meta:
         model = Post
-        fields = ('id','title','rate','author','content','review','url','tags', 'fake','comments', 'created_at')
+        fields = ('id','title','rate','author','content','review','url','fake','tags','comments', 'created_at')
     def get_user_type(self, instance):
         if instance.anonymous:
             return "anonymous"
