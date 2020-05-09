@@ -41,6 +41,21 @@ class ImgSerializer(TaggitSerializer,serializers.ModelSerializer):
     class Meta:
         model=Img
         fields='__all__'
+
+class ImgSerializer_read(TaggitSerializer,serializers.ModelSerializer):
+    tags = TagListSerializerField(required=False)
+    author = serializers.SerializerMethodField(method_name='get_user_type')
+    # post   = serializers.StringRelatedField(read_only=True)
+    class Meta:
+        model=Img
+        # fields='__all__'
+        fields = ('id', 'author','picture', 'created_at', 'tags', 'fake')
+    def get_user_type(self, instance):
+        if instance.anonymous:
+            return "anonymous"
+        else:
+            return instance.author.username
+
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
     post   = serializers.StringRelatedField(read_only=True)
@@ -54,7 +69,25 @@ class PostSerializer(TaggitSerializer,serializers.ModelSerializer):
     comments = CommentSerializer(many=True, required=False)
     class Meta:
         model = Post
-        fields = ('id','title','rate','author','content','review','url','tags', 'comments', 'created_at')
+        fields = ('id','title','rate','author','content','review','url','tags', 'fake','comments', 'created_at', 'anonymous')
+    def get_likes_count(self,instance):
+        return instance.voters.count()
+    def get_user_has_voted(self,instance):
+        request=self.context.get("request")
+        return instance.voters.filter(pk=request.user.pk).exists()
+
+class PostSerializer_read(TaggitSerializer,serializers.ModelSerializer):
+    tags = TagListSerializerField(required=False)
+    author = serializers.SerializerMethodField(method_name='get_user_type')
+    comments = CommentSerializer(many=True, required=False)
+    class Meta:
+        model = Post
+        fields = ('id','title','rate','author','content','review','url','tags', 'fake','comments', 'created_at')
+    def get_user_type(self, instance):
+        if instance.anonymous:
+            return "anonymous"
+        else:
+            return instance.author.username
     def get_likes_count(self,instance):
         return instance.voters.count()
     def get_user_has_voted(self,instance):
@@ -88,7 +121,30 @@ class Smessage(TaggitSerializer,serializers.ModelSerializer):
     # user=Scomments()
     class Meta:
         model = Message
-        fields = ('id','title','rate','author','content','review', 'created_at', 'tags')
+        fields = ('id','title','rate','author','content','review', 'created_at', 'tags', 'fake', 'anonymous')
+    def get_likes_count(self,instance):
+        return instance.voters.count()
+    def get_user_has_voted(self,instance):
+        request=self.context.get("request")
+        return instance.voters.filter(pk=request.user.pk).exists()
+
+class MsgSerializer_read(TaggitSerializer,serializers.ModelSerializer):
+    tags = TagListSerializerField(required=False)
+    author = serializers.SerializerMethodField(method_name='get_user_type')
+    # likes_count=serializers.SerializerMethodField(read_only=True)
+    # user_has_voted=serializers.SerializerMethodField(read_only=True)
+    ## for string related field without displaying it as numerics , it displays the direct object of that object"
+    # user=Scomments()
+    class Meta:
+        model = Message
+        fields = ('id','title','rate','author','content','review', 'created_at', 'tags', 'fake')
+
+    def get_user_type(self, instance):
+        if instance.anonymous:
+            return "anonymous"
+        else:
+            return instance.author.username
+
     def get_likes_count(self,instance):
         return instance.voters.count()
     def get_user_has_voted(self,instance):

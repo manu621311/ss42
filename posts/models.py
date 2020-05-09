@@ -30,6 +30,8 @@ class Post(models.Model):
     voters = models.ManyToManyField(settings.AUTH_USER_MODEL,blank=True,related_name="post_voters")
     tags = TaggableManager(blank=True)
     comments=models.ManyToManyField('Comment',blank=True,related_name="comments_post")
+    fake = models.BooleanField(default=False, blank=True)
+    anonymous = models.BooleanField(default=False, blank=True)
 
     def __str__(self):
         return f'{self.content}'
@@ -47,6 +49,8 @@ class Message(models.Model):
     content=models.TextField(null=True,blank=True)
     review=models.CharField(max_length=250,null=True,blank=True)
     tags = TaggableManager(blank=True)
+    fake = models.BooleanField(default=False, blank=True)
+    anonymous = models.BooleanField(default=False, blank=True)
     # url=models.URLField(null=True,blank=True)
     # voters = models.ManyToManyField(settings.AUTH_USER_MODEL,blank=True,related_name="post_voters")
     # tags = TaggableManager(blank=True)
@@ -60,6 +64,8 @@ class Img(models.Model):
     author=models.ForeignKey(User,on_delete=models.CASCADE,related_name="img")
     picture=models.ImageField(upload_to='fake_picture',null=True,blank=True)
     tags = TaggableManager(blank=True)
+    fake = models.BooleanField(default=False, blank=True)
+    anonymous = models.BooleanField(default=False, blank=True)
 
     # def no_of_rating(self):
 
