@@ -216,12 +216,9 @@ class ImgViewSet(viewsets.ModelViewSet):
     permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
     authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
     queryset = Img.objects.all()
-    # lookup_field="id"
-    # search_fields = ['url']
-    # filter_backends = (filters.SearchFilter,)
-
-
     serializer_class=ImgSerializer
+    def perform_create(self, serializer):
+        serializer.save(author=serializer.context['request'].user)
 
 class MsgViewSet(viewsets.ModelViewSet):
     close_old_connections()
