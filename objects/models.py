@@ -7,5 +7,6 @@ class Profile(models.Model):
     username = models.CharField(max_length=30, blank=True)
     tags = TaggableManager(blank=True)
     Scrapcoins = models.PositiveIntegerField(default=0)
+    Licenced=models.BooleanField(default=False)
     def __str__(self):
         return self.username

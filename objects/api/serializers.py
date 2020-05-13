@@ -16,12 +16,12 @@ class UserDetailSerializer(serializers.ModelSerializer):
         fields = ('id','title','rate','author','content','review','url','tags')
 
 class ProfileSerializer(TaggitSerializer, serializers.ModelSerializer):
-    tags = TagListSerializerField()
+    tags = TagListSerializerField(required=False)
     username = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Profile
-        fields = ('username', 'tags', 'Scrapcoins')
+        fields = ('username', 'tags', 'Scrapcoins','Licenced')
 
 class UserImgProfileSerializer(serializers.ModelSerializer):
     img_count = serializers.SerializerMethodField('get_img_count')
@@ -46,6 +46,6 @@ class UserMsgProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'msg_count')
-    
+
     def get_msg_count(self, obj):
         return Message.objects.filter(author=obj.id).count()
