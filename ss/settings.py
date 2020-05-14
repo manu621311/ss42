@@ -136,6 +136,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ss.wsgi.application'
 
+SECURE_SSL_REDIRECT = True
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
