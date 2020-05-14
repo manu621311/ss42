@@ -50,7 +50,7 @@ ALLOWED_HOSTS = ['*']
 ASGI_APPLICATION = "ss.routing.application"
 
 CORS_ORIGIN_ALLOW_ALL=True
-
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Application definition
 
@@ -136,12 +136,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ss.wsgi.application'
 
-SECURE_SSL_REDIRECT = True
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-
+#
 DATABASES = {
      'default': {
          'ENGINE': 'django.db.backends.postgresql_psycopg2',
