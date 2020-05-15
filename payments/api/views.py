@@ -52,7 +52,7 @@ class ChargeView(APIView):
             source=request.POST['stripeToken']
         )
 
-        user_profile.Scrapcoins += int(amount)*1
+        user_profile.Scrapcoins += int(request.POST['amount'])*3
         user_profile.save()
 
         serializer = ProfileSerializer(user_profile)
