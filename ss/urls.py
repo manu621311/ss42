@@ -45,6 +45,8 @@ urlpatterns = [
     path('api/auth/', include('rest_framework_social_oauth2.urls')),
     path('a/', include('ss.api.urls')),
 
+    path('api/payment/', include('payments.api.urls')),
+
 
     # path('api/rest-auth/registration/', include('rest_auth.registration.urls')),
     # re_path(r'^.*$',IndexTemplateView.as_view(),name='entry point')
