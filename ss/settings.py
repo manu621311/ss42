@@ -25,9 +25,11 @@ import datetime
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CORS_ORIGIN_WHITELIST = [
-    # 'localhost:4200',
-'https://scrapshut.firebaseapp.com',
-'http://localhost:4200']
+# 'localhost:4200',
+    'https://scrapshut.firebaseapp.com',
+    'http://localhost:4200',
+    'http://localhost:8000',
+]
 
 CORS_ALLOW_HEADERS = (
         'x-requested-with',
@@ -71,6 +73,7 @@ INSTALLED_APPS = [
     'objects',
     'notification',
     'developer',
+    'payments.apps.PaymentsConfig',
 
     ##packages
     'corsheaders',
@@ -141,17 +144,18 @@ WSGI_APPLICATION = 'ss.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 #
-DATABASES = {
-     'default': {
-         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-         'NAME': 'scrapshut',
-         'USER': 'postgres',
-         'PASSWORD': 'pass',
-         'HOST': 'localhost',
-         'PORT': '',
-
-     }
- }
+# DATABASES = {
+#      'default': {
+#          'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#          'NAME': 'scrapshut',
+#          'USER': 'postgres',
+#          'PASSWORD': 'pass',
+#          'HOST': 'localhost',
+#          'PORT': '',
+#
+#
+#      }
+#  }
 # # DATA_UPLOAD_MAX_NUMBER_FIELDS = 100240 # higher than the count of fields
 DATA_UPLOAD_MAX_MEMORY_SIZE = 100000000
 
@@ -164,16 +168,16 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 100000000
 #     }
 # }
 #
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'postgres',
-#         'USER': 'postgres',
-#         'PASSWORD': '',
-#         'HOST': 'localhost',
-#         'PORT': '',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'mynameisFB1987',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
 
 # CHANNEL_LAYERS = {
 #     "default": {
@@ -369,3 +373,8 @@ WEBPACK_LOADER = {
 
 MEDIA_URL =  '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+
+# Stripe keys
+STRIPE_SECRET_KEY = 'sk_test_3Pb9X37KdBDhfngkRjHlNJpi'
+STRIPE_PUBLISHABLE_KEY = 'pk_test_Ao1LPddyrUcCYfsWrzJYxzbA'

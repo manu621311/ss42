@@ -56,7 +56,7 @@ class PostListUser(generics.ListAPIView, APIView):
     def get_queryset(self):
 
         return Post.objects.filter(author=self.request.user)
-
+# post endpoint to filter user objects
 class ProfilePostViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Post.objects.filter(author=self.request.user)
@@ -67,6 +67,7 @@ class ProfilePostViewSet(viewsets.ModelViewSet):
     permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
     authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
     serializer_class = PostSerializer_read
+# Img endpoint to filter user objects
 
 class ProfileImgViewSet(viewsets.ModelViewSet):
     parser_class = (FileUploadParser,)
@@ -76,6 +77,7 @@ class ProfileImgViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Img.objects.filter(author=self.request.user)
+# Msg endpoint to filter user objects
 
 class ProfileMsgViewSet(viewsets.ModelViewSet):
     serializer_class = MsgSerializer_read
