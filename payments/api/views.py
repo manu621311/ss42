@@ -45,19 +45,34 @@ class ChargeView(APIView):
         username = user.username
         user_profile = Profile.objects.filter(username=username)[0]
 
-        charge = stripe.Charge.create(
-            amount=amount,
-            currency='inr',
-            description='A Django charge',
-            source=request.POST['stripeToken']
-        )
+        try:
+            charge = stripe.Charge.create(
+                amount=amount,
+                currency='inr',
+                description='A Django charge',
+                source=request.POST['stripeToken']
+            )
+        except Exception as e:
+            data = {
+                'success': False,
+                'error': e.error.message
+            }
 
-        user_profile.Scrapcoins += int(request.POST['amount'])*3
-        user_profile.save()
+        else:
+            user_profile.Scrapcoins += int(request.POST['amount'])*3
+            user_profile.save()
 
-        serializer = ProfileSerializer(user_profile)
+            serializer = ProfileSerializer(user_profile)
 
-        return Response({
-            'success': True,
-            'profile': serializer.data
-        })
+            data = {
+                'success': True,
+                'profile': serializer.data
+            }
+        finally:
+            print(data)
+            return Response(data)
+
+
+
+
+
