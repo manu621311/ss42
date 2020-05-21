@@ -64,7 +64,7 @@ class CommentSerializer(serializers.ModelSerializer):
         fields='__all__'
 
 class PostSerializer(TaggitSerializer,serializers.ModelSerializer):
-    tags = TagListSerializerField(required=False, read_only=True)
+    tags = TagListSerializerField()
     author = serializers.StringRelatedField(read_only=True)
     comments = CommentSerializer(many=True, required=False, read_only=True)
     class Meta:
