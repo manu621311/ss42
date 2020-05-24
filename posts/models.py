@@ -13,7 +13,6 @@ from taggit.managers import TaggableManager
 
 User = get_user_model()
 
-
 class Post(models.Model):
 
     # created_at=models.DateTimeField(efault=datetime.now, blank=True)
@@ -33,6 +32,11 @@ class Post(models.Model):
     anonymous = models.BooleanField(default=False, blank=True)
     fake = models.BooleanField(default=False, blank=True)
 
+    genuine = models.ManyToManyField(settings.AUTH_USER_MODEL , blank=True, related_name="post_genuines")
+    spam = models.ManyToManyField(settings.AUTH_USER_MODEL , blank=True, related_name="post_spames")
+
+
+
     def __str__(self):
         return f'{self.content}'
     def get_absolute_url(self):
@@ -44,7 +48,8 @@ class Message(models.Model):
     title=models.CharField(max_length=128,null=True,blank=True)
     # picture=models.ImageField(upload_to='fake_picture',max_length=255,null=True,blank=True)
     rate=models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(5)],default=True,null=True,blank=True)
-
+    genuine = models.ManyToManyField(settings.AUTH_USER_MODEL , blank=True, related_name="msg_genuines")
+    spam = models.ManyToManyField(settings.AUTH_USER_MODEL , blank=True, related_name="msg_spames")
     # rating=models.IntegerField(null=True,blank=True)
     content=models.TextField(null=True,blank=True)
     review=models.CharField(max_length=250,null=True,blank=True)
@@ -64,6 +69,8 @@ class Img(models.Model):
     author=models.ForeignKey(User,on_delete=models.CASCADE,related_name="img")
     picture=models.ImageField(upload_to='fake_picture',null=True,blank=True)
     tags = TaggableManager(blank=True)
+    genuine = models.ManyToManyField(settings.AUTH_USER_MODEL , blank=True, related_name="img_genuines")
+    spam = models.ManyToManyField(settings.AUTH_USER_MODEL , blank=True, related_name="img_spames")
     fake = models.BooleanField(default=False, blank=True)
     anonymous = models.BooleanField(default=False, blank=True)
 
