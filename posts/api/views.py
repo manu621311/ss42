@@ -1,4 +1,5 @@
 from .serializers import Spost,Smessage, PostSerializer, CommentSerializer,ImgSerializer
+from .serializers import PostSerializer_read, ImgSerializer_read, MsgSerializer_read
 from posts.models import Post,Message, Comment,Img
 from rest_framework import mixins
 from rest_framework import generics
@@ -264,10 +265,15 @@ class PostViewSet(viewsets.ModelViewSet):
     search_fields = ['url']
     filter_backends = (filters.SearchFilter,)
     # serializer_class=Spost
-    serializer_class = PostSerializer
     permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
     authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
 
+    def get_serializer_class(self):
+        # print(self.request.method)
+        if self.request.method == 'GET':
+            return PostSerializer_read
+        else:
+            return PostSerializer
 
     def create(self, request):
         url = request.data.get('url')
@@ -281,23 +287,84 @@ class PostViewSet(viewsets.ModelViewSet):
             return Response({"details" : "Review already exists ! "}, status=status.HTTP_400_BAD_REQUEST)
         else:
             return super(PostViewSet, self).create(request)
+
     def perform_create(self,serializer):
         serializer.save(author=self.request.user)
     close_old_connections()
+
+class FakePostViewSet(viewsets.ModelViewSet):
+    close_old_connections()
+    # lookup_field="id"
+    search_fields = ['url']
+    filter_backends = (filters.SearchFilter,)
+    serializer_class = PostSerializer_read
+    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
+    authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
+
+    def get_queryset(self):
+        return  Post.objects.filter(fake=True)
+
+    close_old_connections()
+
+
+
+
 class ImgViewSet(viewsets.ModelViewSet):
     parser_class = (FileUploadParser,)
     permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
     authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
     queryset = Img.objects.all()
-    serializer_class=ImgSerializer
+
+    def get_serializer_class(self):
+        # print(self.request.method)
+        if self.request.method == 'GET':
+            return ImgSerializer_read
+        else:
+            return ImgSerializer
+
     def perform_create(self, serializer):
         serializer.save(author=serializer.context['request'].user)
+
+class FakeImgViewSet(viewsets.ModelViewSet):
+    close_old_connections()
+    # lookup_field="id"
+    search_fields = ['url']
+    filter_backends = (filters.SearchFilter,)
+    serializer_class = ImgSerializer_read
+    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
+    authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
+
+    def get_queryset(self):
+        return  Img.objects.filter(fake=True)
+
+    close_old_connections()
+
+class FakeMsgViewSet(viewsets.ModelViewSet):
+    close_old_connections()
+    # lookup_field="id"
+    search_fields = ['url']
+    filter_backends = (filters.SearchFilter,)
+    serializer_class = MsgSerializer_read
+    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
+    authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
+
+    def get_queryset(self):
+        return  Message.objects.filter(fake=True)
+
+    close_old_connections()
 
 class MsgViewSet(viewsets.ModelViewSet):
     close_old_connections()
     # parser_class = (FileUploadParser,)
 
     queryset = Message.objects.all()
+
+    def get_serializer_class(self):
+        # print(self.request.method)
+        if self.request.method == 'GET':
+            return MsgSerializer_read
+        else:
+            return Smessage
     # lookup_field="id"
     # search_fields = ['url']
     # filter_backends = (filters.SearchFilter,)

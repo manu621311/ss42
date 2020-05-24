@@ -1,0 +1,10 @@
+<form action="charge/" method="post">
+  {% csrf_token %}
+  <input type="text" name="amount" placeholder="Enter amount (Rs.): ">
+  <input type="text" name="user_id"  style="visibility: visible" placeholder="Enter your user id: ">
+  <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+          data-key="{{ key }}"
+          data-description="A Django Charge"
+          data-amount="500"
+          data-locale="auto"></script>
+</form>

@@ -16,6 +16,8 @@ from django.urls import path,include,re_path
 from core.views import IndexTemplateView
 from  rest_framework.authtoken.views import obtain_auth_token
 from rest_framework_jwt.views import obtain_jwt_token
+from django.conf.urls.static import static
+from django.conf import settings
 # from django_registration.backends.one_step.views import RegistrationView
 # from django_registration.backends.one_step import RegistrationView
 # from django_registration.backends.one_step.views import RegistrationView
@@ -43,6 +45,8 @@ urlpatterns = [
     path('api/auth/', include('rest_framework_social_oauth2.urls')),
     path('a/', include('ss.api.urls')),
 
+    path('api/payment/', include('payments.api.urls')),
+
 
     # path('api/rest-auth/registration/', include('rest_auth.registration.urls')),
     # re_path(r'^.*$',IndexTemplateView.as_view(),name='entry point')
@@ -52,3 +56,6 @@ urlpatterns = [
 
 
 ]
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
