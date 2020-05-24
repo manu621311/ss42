@@ -20,6 +20,8 @@ from posts.api.permissions import IsAuthorOrReadOnly
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.decorators import action
 from django.contrib.auth.models import User
+from developer.models import Developers
+from posts.models import Post
 
 from rest_framework.authentication import TokenAuthentication
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
@@ -27,12 +29,83 @@ from django.db import close_old_connections
 from rest_framework import filters
 from rest_framework import status
 from rest_framework.parsers import FileUploadParser
+from django.http import HttpResponse
+from objects.models import Profile
 
 # from rest_framework.responseim
 # class UserViewSet(viewsets.ModelViewSet):
 #     queryset = User.objects.all()
 #     # lookup_field="id"
 #     serializer_class=Suser
+def vote_post(request, pid, uid, query):
+    if query == 'upvote':
+        post = Post.objects.get(id=pid)
+        post.genuine.add(User.objects.get(id=uid))
+        post.save()
+        try:
+            obj = Profile.objects.get(username=post.author.username)
+            val = obj.Scrapcoins
+            obj.Scrapcoins = val + 1
+            obj.save()
+        except:
+            obj = Profile.objects.create(
+                username=post.author.username,
+                tags = [""],
+                Scrapcoins = 1
+                )
+        return HttpResponse(status=200)
+    elif query == 'downvote':
+        post = Post.objects.get(id=pid)
+        post.spam.add(User.objects.get(id=uid))
+        post.save()
+        return HttpResponse(status=200)
+    
+def vote_img(request, pid, uid, query):
+    if query == 'upvote':
+        img = Post.objects.get(id=pid)
+        img.genuine.add(User.objects.get(id=uid))
+        img.save()
+        try:
+            obj = Profile.objects.get(username=img.author.username)
+            val = obj.Scrapcoins
+            obj.Scrapcoins = val + 1
+            obj.save()
+        except:
+            obj = Profile.objects.create(
+                username=img.author.username,
+                tags = [""],
+                Scrapcoins = 1
+                )
+        return HttpResponse(status=200)
+    elif query == 'downvote':
+        img = Img.objects.get(id=pid)
+        img.spam.add(User.objects.get(id=uid))
+        img.save()
+        return HttpResponse(status=200)
+
+def vote_msg(request, pid, uid, query):
+    if query == 'upvote':
+        msg = Message.objects.get(id=pid)
+        msg.genuine.add(User.objects.get(id=uid))
+        msg.save()
+        try:
+            obj = Profile.objects.get(username=msg.author.username)
+            val = obj.Scrapcoins
+            obj.Scrapcoins = val + 1
+            obj.save()
+        except:
+            obj = Profile.objects.create(
+                username=msg.author.username,
+                tags = [""],
+                Scrapcoins = 1
+                )
+        return HttpResponse(status=200)
+    elif query == 'downvote':
+        msg = Message.objects.get(id=pid)
+        msg.spam.add(User.objects.get(id=uid))
+        msg.save()
+        return HttpResponse(status=200)
+
 
 class SortedPostViewSet(viewsets.ModelViewSet):
 
