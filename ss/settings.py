@@ -85,7 +85,7 @@ INSTALLED_APPS = [
     'rest_auth',
     'rest_auth.registration',
     'crispy_forms',
-    #'django_extensions',
+    'django_extensions',
     'webpack_loader',
    'oauth2_provider',
     'social_django',

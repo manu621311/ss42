@@ -69,14 +69,11 @@ class Img(models.Model):
     author=models.ForeignKey(User,on_delete=models.CASCADE,related_name="img")
     picture=models.ImageField(upload_to='fake_picture',null=True,blank=True)
     tags = TaggableManager(blank=True)
-<<<<<<< HEAD
     genuine = models.ManyToManyField(settings.AUTH_USER_MODEL , blank=True, related_name="img_genuines")
     spam = models.ManyToManyField(settings.AUTH_USER_MODEL , blank=True, related_name="img_spames")
-=======
     fake = models.BooleanField(default=False, blank=True)
     anonymous = models.BooleanField(default=False, blank=True)
 
->>>>>>> 2a3bfebab074a636cf2b27f54f5dc77268eb8c37
     # def no_of_rating(self):
 
     #     ratings=Rating.objects.filter(Post=self)
