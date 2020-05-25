@@ -124,4 +124,4 @@ class ProfileTags(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def perform_create(self, serializer):
-        serializer.save(username = self.request.user.username)
+        serializer.save(username = self.request.user.username,userid=self.request.user.id)
