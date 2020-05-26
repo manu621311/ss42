@@ -41,8 +41,19 @@ from objects.models import Profile
 def vote_post(request, pid, uid, query):
     if query == 'upvote':
         post = Post.objects.get(id=pid)
-        post.genuine.add(User.objects.get(id=uid))
+
+        usr = User.objects.get(id=uid)
+
+        if usr in post.genuine.all():
+            return HttpResponse(status=406)
+        
+        post.genuine.add(usr)
+
+        if usr in post.spam.all():
+            post.spam.remove(usr)
+        
         post.save()
+
         try:
             obj = Profile.objects.get(username=post.author.username)
             val = obj.Scrapcoins
@@ -55,17 +66,47 @@ def vote_post(request, pid, uid, query):
                 Scrapcoins = 1
                 )
         return HttpResponse(status=200)
+    
     elif query == 'downvote':
         post = Post.objects.get(id=pid)
-        post.spam.add(User.objects.get(id=uid))
+
+        usr = User.objects.get(id=uid)
+
+        if usr in post.spam.all():
+            return HttpResponse(status=406)
+
+        post.spam.add(usr)
+
+        if usr in post.genuine.all():
+            post.genuine.remove(usr)
+
         post.save()
+        
+        try:
+            obj = Profile.objects.get(username=post.author.username)
+            val = obj.Scrapcoins
+            obj.Scrapcoins = val - 1
+            obj.save()
+        except:
+            return HttpResponse(status=404)
         return HttpResponse(status=200)
     
 def vote_img(request, pid, uid, query):
     if query == 'upvote':
-        img = Post.objects.get(id=pid)
-        img.genuine.add(User.objects.get(id=uid))
+        img = Img.objects.get(id=pid)
+
+        usr = User.objects.get(id=uid)
+
+        if usr in img.genuine.all():
+            return HttpResponse(status=406)
+        
+        img.genuine.add(usr)
+
+        if usr in img.spam.all():
+            img.spam.remove(usr)
+        
         img.save()
+
         try:
             obj = Profile.objects.get(username=img.author.username)
             val = obj.Scrapcoins
@@ -78,17 +119,47 @@ def vote_img(request, pid, uid, query):
                 Scrapcoins = 1
                 )
         return HttpResponse(status=200)
+    
     elif query == 'downvote':
         img = Img.objects.get(id=pid)
-        img.spam.add(User.objects.get(id=uid))
+
+        usr = User.objects.get(id=uid)
+
+        if usr in img.spam.all():
+            return HttpResponse(status=406)
+
+        img.spam.add(usr)
+
+        if usr in img.genuine.all():
+            img.genuine.remove(usr)
+
         img.save()
+        
+        try:
+            obj = Profile.objects.get(username=img.author.username)
+            val = obj.Scrapcoins
+            obj.Scrapcoins = val - 1
+            obj.save()
+        except:
+            return HttpResponse(status=404)
         return HttpResponse(status=200)
 
 def vote_msg(request, pid, uid, query):
     if query == 'upvote':
         msg = Message.objects.get(id=pid)
-        msg.genuine.add(User.objects.get(id=uid))
+
+        usr = User.objects.get(id=uid)
+
+        if usr in msg.genuine.all():
+            return HttpResponse(status=406)
+        
+        msg.genuine.add(usr)
+
+        if usr in msg.spam.all():
+            msg.spam.remove(usr)
+        
         msg.save()
+
         try:
             obj = Profile.objects.get(username=msg.author.username)
             val = obj.Scrapcoins
@@ -101,10 +172,29 @@ def vote_msg(request, pid, uid, query):
                 Scrapcoins = 1
                 )
         return HttpResponse(status=200)
+    
     elif query == 'downvote':
         msg = Message.objects.get(id=pid)
-        msg.spam.add(User.objects.get(id=uid))
+
+        usr = User.objects.get(id=uid)
+
+        if usr in msg.spam.all():
+            return HttpResponse(status=406)
+
+        msg.spam.add(usr)
+
+        if usr in msg.genuine.all():
+            msg.genuine.remove(usr)
+
         msg.save()
+        
+        try:
+            obj = Profile.objects.get(username=msg.author.username)
+            val = obj.Scrapcoins
+            obj.Scrapcoins = val - 1
+            obj.save()
+        except:
+            return HttpResponse(status=404)
         return HttpResponse(status=200)
 
 
