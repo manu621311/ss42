@@ -62,6 +62,7 @@ def vote_post(request, pid, uid, query):
         except:
             obj = Profile.objects.create(
                 username=post.author.username,
+                userid = post.author.id,
                 tags = [""],
                 Scrapcoins = 1
                 )
@@ -115,6 +116,7 @@ def vote_img(request, pid, uid, query):
         except:
             obj = Profile.objects.create(
                 username=img.author.username,
+                userid = img.author.id,
                 tags = [""],
                 Scrapcoins = 1
                 )
@@ -168,6 +170,7 @@ def vote_msg(request, pid, uid, query):
         except:
             obj = Profile.objects.create(
                 username=msg.author.username,
+                userid = msg.author.id,
                 tags = [""],
                 Scrapcoins = 1
                 )
