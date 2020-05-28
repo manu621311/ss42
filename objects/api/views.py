@@ -22,9 +22,11 @@ from posts.api.permissions import IsAuthorOrReadOnly
 from rest_framework import filters
 from rest_framework.parsers import FileUploadParser
 
+from rest_framework_api_key.permissions import HasAPIKey  # Permission for API Key check
+
 
 class UserImgProfile(viewsets.ViewSet):
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny, HasAPIKey]
     def list(self, request):
         queryset = User.objects.all()
         serializer = UserImgProfileSerializer(queryset, many=True)
@@ -32,7 +34,7 @@ class UserImgProfile(viewsets.ViewSet):
         return Response(serializer_data)
 
 class UserMsgProfile(viewsets.ViewSet):
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny, HasAPIKey]
     def list(self, request):
         queryset = User.objects.all()
         serializer = UserMsgProfileSerializer(queryset, many=True)
@@ -40,7 +42,7 @@ class UserMsgProfile(viewsets.ViewSet):
         return Response(serializer_data)
 
 class UserPostProfile(viewsets.ViewSet):
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny, HasAPIKey]
     def list(self, request):
         queryset = User.objects.all()
         serializer = UserPostProfileSerializer(queryset, many=True)
@@ -50,7 +52,7 @@ class UserPostProfile(viewsets.ViewSet):
 
 class PostListUser(generics.ListAPIView, APIView):
     serializer_class = UserDetailSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly, HasAPIKey]
     authentication_classes =(JSONWebTokenAuthentication,TokenAuthentication)
 
     def get_queryset(self):
@@ -64,14 +66,14 @@ class ProfilePostViewSet(viewsets.ModelViewSet):
     search_fields = ['url']
     filter_backends = (filters.SearchFilter,)
 
-    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
+    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly, HasAPIKey]
     authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
     serializer_class = PostSerializer_read
 # Img endpoint to filter user objects
 
 class ProfileImgViewSet(viewsets.ModelViewSet):
     parser_class = (FileUploadParser,)
-    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
+    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly, HasAPIKey]
     authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
     serializer_class = ImgSerializer_read
 
@@ -81,7 +83,7 @@ class ProfileImgViewSet(viewsets.ModelViewSet):
 
 class ProfileMsgViewSet(viewsets.ModelViewSet):
     serializer_class = MsgSerializer_read
-    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
+    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly, HasAPIKey]
     authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
 
     def get_queryset(self):
@@ -89,7 +91,7 @@ class ProfileMsgViewSet(viewsets.ModelViewSet):
 
 class ProfileTags(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
-    permission_classes =[IsAuthenticatedOrReadOnly]
+    permission_classes =[IsAuthenticatedOrReadOnly, HasAPIKey]
     authentication_classes =(JSONWebTokenAuthentication,TokenAuthentication)
 
 

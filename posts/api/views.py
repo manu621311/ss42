@@ -18,7 +18,7 @@ from rest_framework.exceptions import ValidationError
 from posts.api.serializers import Spost
 from posts.models import Post
 from posts.api.permissions import IsAuthorOrReadOnly
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
 from rest_framework.decorators import action
 from django.contrib.auth.models import User
 from developer.models import Developers
@@ -33,6 +33,8 @@ from rest_framework.parsers import FileUploadParser
 from django.http import HttpResponse
 from objects.models import Profile
 
+from rest_framework_api_key.permissions import HasAPIKey  # Permission for API Key check
+
 # from rest_framework.responseim
 # class UserViewSet(viewsets.ModelViewSet):
 #     queryset = User.objects.all()
@@ -46,12 +48,12 @@ def vote_post(request, pid, uid, query):
 
         if usr in post.genuine.all():
             return HttpResponse(status=406)
-        
+
         post.genuine.add(usr)
 
         if usr in post.spam.all():
             post.spam.remove(usr)
-        
+
         post.save()
 
         try:
@@ -67,7 +69,7 @@ def vote_post(request, pid, uid, query):
                 Scrapcoins = 1
                 )
         return HttpResponse(status=200)
-    
+
     elif query == 'downvote':
         post = Post.objects.get(id=pid)
 
@@ -82,7 +84,7 @@ def vote_post(request, pid, uid, query):
             post.genuine.remove(usr)
 
         post.save()
-        
+
         try:
             obj = Profile.objects.get(username=post.author.username)
             val = obj.Scrapcoins
@@ -91,7 +93,7 @@ def vote_post(request, pid, uid, query):
         except:
             return HttpResponse(status=404)
         return HttpResponse(status=200)
-    
+
 def vote_img(request, pid, uid, query):
     if query == 'upvote':
         img = Img.objects.get(id=pid)
@@ -100,12 +102,12 @@ def vote_img(request, pid, uid, query):
 
         if usr in img.genuine.all():
             return HttpResponse(status=406)
-        
+
         img.genuine.add(usr)
 
         if usr in img.spam.all():
             img.spam.remove(usr)
-        
+
         img.save()
 
         try:
@@ -121,7 +123,7 @@ def vote_img(request, pid, uid, query):
                 Scrapcoins = 1
                 )
         return HttpResponse(status=200)
-    
+
     elif query == 'downvote':
         img = Img.objects.get(id=pid)
 
@@ -136,7 +138,7 @@ def vote_img(request, pid, uid, query):
             img.genuine.remove(usr)
 
         img.save()
-        
+
         try:
             obj = Profile.objects.get(username=img.author.username)
             val = obj.Scrapcoins
@@ -154,12 +156,12 @@ def vote_msg(request, pid, uid, query):
 
         if usr in msg.genuine.all():
             return HttpResponse(status=406)
-        
+
         msg.genuine.add(usr)
 
         if usr in msg.spam.all():
             msg.spam.remove(usr)
-        
+
         msg.save()
 
         try:
@@ -175,7 +177,7 @@ def vote_msg(request, pid, uid, query):
                 Scrapcoins = 1
                 )
         return HttpResponse(status=200)
-    
+
     elif query == 'downvote':
         msg = Message.objects.get(id=pid)
 
@@ -190,7 +192,7 @@ def vote_msg(request, pid, uid, query):
             msg.genuine.remove(usr)
 
         msg.save()
-        
+
         try:
             obj = Profile.objects.get(username=msg.author.username)
             val = obj.Scrapcoins
@@ -241,7 +243,7 @@ class SortedPostViewSet(viewsets.ModelViewSet):
         return queryset.filter(id__in=filtered_ids)
 
     serializer_class=Spost
-    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
+    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly, HasAPIKey]
     authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
 
 class SortedMessageViewSet(viewsets.ModelViewSet):
@@ -284,7 +286,7 @@ class SortedMessageViewSet(viewsets.ModelViewSet):
         return queryset.filter(id__in=filtered_ids)
 
     serializer_class=Smessage
-    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
+    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly, HasAPIKey]
     authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
 
 
@@ -328,13 +330,13 @@ class SortedImageViewSet(viewsets.ModelViewSet):
         return queryset.filter(id__in=filtered_ids)
 
     serializer_class=ImgSerializer
-    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
+    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly, HasAPIKey]
     authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
 
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
+    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly, HasAPIKey]
     authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
 
     def perform_create(self, serializer):
@@ -354,15 +356,12 @@ class CommentViewSet(viewsets.ModelViewSet):
 class PostViewSet(viewsets.ModelViewSet):
     close_old_connections()
     queryset = Post.objects.all()
-    # lookup_field="id"
     search_fields = ['url']
     filter_backends = (filters.SearchFilter,)
-    # serializer_class=Spost
-    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
+    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly, HasAPIKey]   # Added api key Permission
     authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
 
     def get_serializer_class(self):
-        # print(self.request.method)
         if self.request.method == 'GET':
             return PostSerializer_read
         else:
@@ -391,7 +390,7 @@ class FakePostViewSet(viewsets.ModelViewSet):
     search_fields = ['url']
     filter_backends = (filters.SearchFilter,)
     serializer_class = PostSerializer_read
-    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
+    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly, HasAPIKey]
     authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
 
     def get_queryset(self):
@@ -404,7 +403,7 @@ class FakePostViewSet(viewsets.ModelViewSet):
 
 class ImgViewSet(viewsets.ModelViewSet):
     parser_class = (FileUploadParser,)
-    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
+    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly, HasAPIKey]
     authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
     queryset = Img.objects.all()
 
@@ -424,7 +423,7 @@ class FakeImgViewSet(viewsets.ModelViewSet):
     search_fields = ['url']
     filter_backends = (filters.SearchFilter,)
     serializer_class = ImgSerializer_read
-    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
+    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly, HasAPIKey]
     authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
 
     def get_queryset(self):
@@ -438,7 +437,7 @@ class FakeMsgViewSet(viewsets.ModelViewSet):
     search_fields = ['url']
     filter_backends = (filters.SearchFilter,)
     serializer_class = MsgSerializer_read
-    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
+    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly, HasAPIKey]
     authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
 
     def get_queryset(self):
@@ -464,7 +463,7 @@ class MsgViewSet(viewsets.ModelViewSet):
 
 
     serializer_class=Smessage
-    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
+    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly, HasAPIKey]
     authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
     # def create(self, request):
     #     url = request.data.get('url')
@@ -528,10 +527,10 @@ class MsgViewSet(viewsets.ModelViewSet):
 class PostRUDView(generics.RetrieveUpdateDestroyAPIView):
     queryset=Post.objects.all()
     serializer_class=Spost
-    permission_classes=[IsAuthorOrReadOnly,IsAuthenticatedOrReadOnly]
+    permission_classes=[IsAuthorOrReadOnly,IsAuthenticatedOrReadOnly, HasAPIKey]
 class PostLikeView(APIView):
     serializer_class=Spost
-    permission_classes=[IsAuthenticatedOrReadOnly]
+    permission_classes=[IsAuthenticatedOrReadOnly, HasAPIKey]
     def delete(self,request,pk):
         post=get_object_or_404(Post,pk=pk)
         user=request.user

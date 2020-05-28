@@ -85,6 +85,7 @@ INSTALLED_APPS = [
     'rest_auth',
     'rest_auth.registration',
     'crispy_forms',
+    "rest_framework_api_key",
     #'django_extensions',
     'webpack_loader',
    'oauth2_provider',
@@ -373,6 +374,9 @@ WEBPACK_LOADER = {
 
 MEDIA_URL =  '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+# Custom Http Header for API Key
+API_KEY_CUSTOM_HEADER = "HTTP_API_KEY"
 
 
 # Stripe keys
