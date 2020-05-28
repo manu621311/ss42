@@ -9,13 +9,15 @@ from notification.models import Notification
 from posts.models import Post
 from django.contrib.auth.models import User
 
+from rest_framework_api_key.permissions import HasAPIKey  # Permission for API Key check
+
 
 
 
 
 class NotificationSort(viewsets.ModelViewSet):
     serializer_class = NotificationSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, HasAPIKey]
     authentication_classes =(JSONWebTokenAuthentication,TokenAuthentication)
     queryset = Notification.objects.all()
 
