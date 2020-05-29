@@ -12,7 +12,15 @@ from django.contrib.auth import get_user_model
 from taggit.managers import TaggableManager
 
 User = get_user_model()
-
+class PostAdvertisment(models.Model):
+    # post=models.ForeignKey(Post,on_delete=models.CASCADE,null=True,blank=True)
+    post=models.ForeignKey('Post',on_delete=models.CASCADE,related_name="postad",null=True,blank=True)
+    created_at=models.DateTimeField(auto_now_add=True)
+    title=models.CharField(max_length=255,null=True,blank=True)
+    url=models.URLField(null=True,blank=True)
+    advertizing_content= models.TextField(null =True ,blank=True)
+    def __str__(self):
+        return f'{self.title}'
 class Post(models.Model):
 
     # created_at=models.DateTimeField(efault=datetime.now, blank=True)
@@ -34,6 +42,7 @@ class Post(models.Model):
 
     genuine = models.ManyToManyField(settings.AUTH_USER_MODEL , blank=True, related_name="post_genuines")
     spam = models.ManyToManyField(settings.AUTH_USER_MODEL , blank=True, related_name="post_spames")
+    advertisement=models.ForeignKey(PostAdvertisment,on_delete=models.CASCADE,null=True,blank=True,related_name="postadvertisement")
 
 
 

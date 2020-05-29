@@ -358,8 +358,8 @@ class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     search_fields = ['url']
     filter_backends = (filters.SearchFilter,)
-    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly, HasAPIKey]   # Added api key Permission
-    authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
+    permission_classes =[HasAPIKey]   # Added api key Permission
+    # authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
 
     def get_serializer_class(self):
         if self.request.method == 'GET':
