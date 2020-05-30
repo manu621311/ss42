@@ -22,6 +22,10 @@ router.register(r'post', views.PostViewSet)
 router.register(r'msg', views.MsgViewSet)
 router.register(r'img', views.ImgViewSet)
 
+router.register(r'service/post', views.ForServicePostViewSet)
+router.register(r'service/msg', views.ForServiceMsgViewSet)
+router.register(r'service/img', views.ForServiceImgViewSet)
+
 router.register(r'fake_post', views.FakePostViewSet, Post)
 router.register(r'fake_msg', views.FakeMsgViewSet, Message)
 router.register(r'fake_img', views.FakeImgViewSet, Img)

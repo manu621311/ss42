@@ -352,14 +352,25 @@ class CommentViewSet(viewsets.ModelViewSet):
         post.comments.add(comment)
         post.save()
 
+class ForServicePostViewSet(viewsets.ModelViewSet):
+    close_old_connections()
+    queryset = Post.objects.all()
+    search_fields = ['url']
+    serializer_class = PostSerializer_read
+    http_method_names = ['get']
+    filter_backends = (filters.SearchFilter,)
+    permission_classes =[HasAPIKey]
+    authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
+    close_old_connections()
+
 
 class PostViewSet(viewsets.ModelViewSet):
     close_old_connections()
     queryset = Post.objects.all()
     search_fields = ['url']
     filter_backends = (filters.SearchFilter,)
-    permission_classes =[HasAPIKey]   # Added api key Permission
-    # authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
+    permission_classes =[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly, HasAPIKey]
+    authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
 
     def get_serializer_class(self):
         if self.request.method == 'GET':
@@ -399,7 +410,15 @@ class FakePostViewSet(viewsets.ModelViewSet):
     close_old_connections()
 
 
-
+class ForServiceImgViewSet(viewsets.ModelViewSet):
+    close_old_connections()
+    parser_class = (FileUploadParser,)
+    queryset = Img.objects.all()
+    serializer_class = ImgSerializer_read
+    http_method_names = ['get']
+    permission_classes =[HasAPIKey]
+    authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
+    close_old_connections()
 
 class ImgViewSet(viewsets.ModelViewSet):
     parser_class = (FileUploadParser,)
@@ -430,6 +449,19 @@ class FakeImgViewSet(viewsets.ModelViewSet):
         return  Img.objects.filter(fake=True)
 
     close_old_connections()
+
+
+class ForServiceMsgViewSet(viewsets.ModelViewSet):
+    close_old_connections()
+    search_fields = ['url']
+    queryset = Img.objects.all()
+    serializer_class = MsgSerializer_read
+    http_method_names = ['get']
+    filter_backends = (filters.SearchFilter,)
+    permission_classes =[HasAPIKey]
+    authentication_classes =(TokenAuthentication,JSONWebTokenAuthentication)
+    close_old_connections()
+
 
 class FakeMsgViewSet(viewsets.ModelViewSet):
     close_old_connections()
