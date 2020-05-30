@@ -30,7 +30,7 @@ from django.db import close_old_connections
 from rest_framework import filters
 from rest_framework import status
 from rest_framework.parsers import FileUploadParser
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from objects.models import Profile
 
 from rest_framework_api_key.permissions import HasAPIKey  # Permission for API Key check
@@ -47,7 +47,7 @@ def vote_post(request, pid, uid, query):
         usr = User.objects.get(id=uid)
 
         if usr in post.genuine.all():
-            return HttpResponse(status=406)
+            return JsonResponse({'message': "Post already upvoted !"})
 
         post.genuine.add(usr)
 
@@ -68,7 +68,18 @@ def vote_post(request, pid, uid, query):
                 tags = [""],
                 Scrapcoins = 1
                 )
-        return HttpResponse(status=200)
+
+        scrapcoins = len(post.genuine.values()) - len(post.spam.values())
+        if scrapcoins < 0:
+            scrapcoins = 0
+        payload = {
+            'post_id': post.id,
+            'upvotes': len(post.genuine.values()),
+            'downvotes': len(post.spam.values()),
+            'scrapcoins': scrapcoins
+        }
+
+        return JsonResponse(payload)
 
     elif query == 'downvote':
         post = Post.objects.get(id=pid)
@@ -76,7 +87,7 @@ def vote_post(request, pid, uid, query):
         usr = User.objects.get(id=uid)
 
         if usr in post.spam.all():
-            return HttpResponse(status=406)
+            return JsonResponse({'message': "Post already downvoted !"})
 
         post.spam.add(usr)
 
@@ -92,7 +103,18 @@ def vote_post(request, pid, uid, query):
             obj.save()
         except:
             return HttpResponse(status=404)
-        return HttpResponse(status=200)
+
+        scrapcoins = len(post.genuine.values()) - len(post.spam.values())
+        if scrapcoins < 0:
+            scrapcoins = 0
+        payload = {
+            'post_id': post.id,
+            'upvotes': len(post.genuine.values()),
+            'downvotes': len(post.spam.values()),
+            'scrapcoins': scrapcoins
+        }
+
+        return JsonResponse(payload)
 
 def vote_img(request, pid, uid, query):
     if query == 'upvote':
@@ -101,7 +123,7 @@ def vote_img(request, pid, uid, query):
         usr = User.objects.get(id=uid)
 
         if usr in img.genuine.all():
-            return HttpResponse(status=406)
+            return JsonResponse({'message': "Image already upvoted !"})
 
         img.genuine.add(usr)
 
@@ -122,7 +144,18 @@ def vote_img(request, pid, uid, query):
                 tags = [""],
                 Scrapcoins = 1
                 )
-        return HttpResponse(status=200)
+
+        scrapcoins = len(img.genuine.values()) - len(img.spam.values())
+        if scrapcoins < 0:
+            scrapcoins = 0
+        payload = {
+            'image_id': img.id,
+            'upvotes': len(img.genuine.values()),
+            'downvotes': len(img.spam.values()),
+            'scrapcoins': scrapcoins
+        }
+
+        return JsonResponse(payload)
 
     elif query == 'downvote':
         img = Img.objects.get(id=pid)
@@ -130,7 +163,7 @@ def vote_img(request, pid, uid, query):
         usr = User.objects.get(id=uid)
 
         if usr in img.spam.all():
-            return HttpResponse(status=406)
+            return JsonResponse({'message': "Image already downvoted !"})
 
         img.spam.add(usr)
 
@@ -146,7 +179,18 @@ def vote_img(request, pid, uid, query):
             obj.save()
         except:
             return HttpResponse(status=404)
-        return HttpResponse(status=200)
+
+        scrapcoins = len(img.genuine.values()) - len(img.spam.values())
+        if scrapcoins < 0:
+            scrapcoins = 0
+        payload = {
+            'image_id': img.id,
+            'upvotes': len(img.genuine.values()),
+            'downvotes': len(img.spam.values()),
+            'scrapcoins': scrapcoins
+        }
+
+        return JsonResponse(payload)
 
 def vote_msg(request, pid, uid, query):
     if query == 'upvote':
@@ -155,7 +199,7 @@ def vote_msg(request, pid, uid, query):
         usr = User.objects.get(id=uid)
 
         if usr in msg.genuine.all():
-            return HttpResponse(status=406)
+            return JsonResponse({'message': "Message already upvoted !"})
 
         msg.genuine.add(usr)
 
@@ -176,15 +220,27 @@ def vote_msg(request, pid, uid, query):
                 tags = [""],
                 Scrapcoins = 1
                 )
-        return HttpResponse(status=200)
+
+        scrapcoins = len(msg.genuine.values()) - len(msg.spam.values())
+        if scrapcoins < 0:
+            scrapcoins = 0
+        payload = {
+            'message_id': msg.id,
+            'upvotes': len(msg.genuine.values()),
+            'downvotes': len(msg.spam.values()),
+            'scrapcoins': scrapcoins
+        }
+
+        return JsonResponse(payload)
 
     elif query == 'downvote':
         msg = Message.objects.get(id=pid)
 
+
         usr = User.objects.get(id=uid)
 
         if usr in msg.spam.all():
-            return HttpResponse(status=406)
+            return JsonResponse({'message': "Message already downvoted !"})
 
         msg.spam.add(usr)
 
@@ -200,7 +256,18 @@ def vote_msg(request, pid, uid, query):
             obj.save()
         except:
             return HttpResponse(status=404)
-        return HttpResponse(status=200)
+
+        scrapcoins = len(msg.genuine.values()) - len(msg.spam.values())
+        if scrapcoins < 0:
+            scrapcoins = 0
+        payload = {
+            'message_id': msg.id,
+            'upvotes': len(msg.genuine.values()),
+            'downvotes': len(msg.spam.values()),
+            'scrapcoins': scrapcoins
+        }
+
+        return JsonResponse(payload)
 
 
 class SortedPostViewSet(viewsets.ModelViewSet):
