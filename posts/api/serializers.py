@@ -100,17 +100,27 @@ class PostSerializer(TaggitSerializer,serializers.ModelSerializer):
     #     headers = self.get_success_headers(serializer.data)
     #     return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers) 
     def create(self,validated_data):
-        advertisement=validated_data.pop('advertisement')
+        validated_data["advertisement"] = PostAdvertisment.objects.create(**validated_data["advertisement"])
+        post = Post.objects.create(**validated_data)
+        return post
+
+
+        # advertisement=validated_data.pop('advertisement')
+        # post = Post.objects.create(**validated_data)
+        # post.advertisement = PostAdvertisment.objects.create(**advertisement)
+        # post.save()
+        # return post        
+
+
+
+        # advertisement=validated_data.pop('advertisement')
       
 
-        post=Post.objects.create(**validated_data)
-        # for advertise in advertisement:
-        postad=PostAdvertisment.objects.create(**advertisement, post=post)
-        # post.objects.create(advertisement=postad)
-        # Post.objects.create(advertisement=postad)
-        # Post.objects.create(advertisement=postad) 
-        # Post.objects.create(advertisement=advertisement)
-        return post  
+        # post=Post.objects.create(**validated_data)
+        # # for advertise in advertisement:
+        # postad=PostAdvertisment.objects.create(**advertisement, post=post)
+
+        # return post  
     def get_likes_count(self,instance):
         return instance.voters.count()
     def get_user_has_voted(self,instance):
