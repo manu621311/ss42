@@ -29,6 +29,7 @@ CORS_ORIGIN_WHITELIST = [
     'https://scrapshut.firebaseapp.com',
     'http://localhost:4200',
     'http://localhost:8000',
+    'https://wiringbridge.com',
 ]
 
 CORS_ALLOW_HEADERS = (
