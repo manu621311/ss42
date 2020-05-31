@@ -75,7 +75,7 @@ class PostSerializer(TaggitSerializer,serializers.ModelSerializer):
     comments = CommentSerializer(many=True, required=False, read_only=True)
     # title = serializers.CharField()
 
-    advertisement = PostAdvertisementSerializer()
+    advertisement = PostAdvertisementSerializer(required=False)
     # advertisement = serializers.SlugRelatedField(
     #     queryset=PostAdvertisment.objects.all(),   
     #     slug_field='advertisement'
