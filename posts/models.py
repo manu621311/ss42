@@ -14,7 +14,7 @@ from taggit.managers import TaggableManager
 User = get_user_model()
 class PostAdvertisment(models.Model):
     # post=models.ForeignKey(Post,on_delete=models.CASCADE,null=True,blank=True)
-    post=models.ForeignKey('Post',on_delete=models.CASCADE,related_name="postad",null=True,blank=True)
+    # post=models.ForeignKey('Post',on_delete=models.CASCADE,related_name="postad",null=True,blank=True)
     created_at=models.DateTimeField(auto_now_add=True)
     title=models.CharField(max_length=255,null=True,blank=True)
     url=models.URLField(null=True,blank=True)
