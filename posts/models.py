@@ -35,7 +35,7 @@ class Post(models.Model):
     review=models.CharField(max_length=250,null=True,blank=True)
     url=models.URLField(null=True,blank=True)
     voters = models.ManyToManyField(settings.AUTH_USER_MODEL,blank=True,related_name="post_voters")
-    tags = TaggableManager(blank=True)
+    tags = TaggableManager()
     comments=models.ManyToManyField('Comment',blank=True,related_name="comments_post")
     anonymous = models.BooleanField(default=False, blank=True)
     fake = models.BooleanField(default=False, blank=True)
