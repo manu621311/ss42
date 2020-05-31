@@ -70,7 +70,7 @@ class PostAdvertisementSerializer(serializers.ModelSerializer):
         model=PostAdvertisment
         fields='__all__'
 class PostSerializer(TaggitSerializer,serializers.ModelSerializer):
-    tags = TagListSerializerField()
+    tags = TagListSerializerField(required=True)
     author = serializers.StringRelatedField(read_only=True)
     comments = CommentSerializer(many=True, required=False, read_only=True)
     # title = serializers.CharField()
