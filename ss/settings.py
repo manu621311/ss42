@@ -154,7 +154,7 @@ DATABASES = {
            'ENGINE': 'django.db.backends.postgresql_psycopg2',
            'NAME': 'scrapshut',
            'USER': 'postgres',
-           'PASSWORD': 'pass',
+           'PASSWORD': 'ajay',
            'HOST': 'localhost',
            'PORT': '',
 
