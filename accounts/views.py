@@ -44,6 +44,7 @@ def create_verification(request, id):
         subject = 'Verify Your Email with Scrapshut'
         message = f'Copy and paste this url in your browser to verify https://backend.scrapshut.com/api/verify/confirm/{ran}/{id}/{token}'
         recepient = user.email
+        print(recepient)
         try:
             send_mail(subject, message, from_email, [recepient], fail_silently = False)
         except Exception as e:
