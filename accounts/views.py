@@ -25,8 +25,9 @@ def create_verification(request, id):
     if not user:
         return HttpResponse(status=401)
 
-    token = pyotp.totp.TOTP(user.username).now()
-    print(user.email)
+    ran = pyotp.random_base32()
+
+    token = pyotp.totp.TOTP(ran).now()
 
     try:
         obj = Authentication.objects.get(user=id)
@@ -36,16 +37,32 @@ def create_verification(request, id):
         obj = Authentication(user=user, token=token)
         obj.save()
     
-        if token:
-            from_email = f'Scrapshut pythonautomail1@gmail.com'
-            subject = 'Verify Your Email with Scrapshut'
-            message = f'Your OTP is {token}.'
-            recepient = user.email
-            try:
-                send_mail(subject, message, from_email, [recepient], fail_silently = False)
-            except Exception as e:
-                
-                HttpResponse(e, status=403)
     
-    return HttpResponse(status=200)
+    
+    if token:
+        from_email = f'Scrapshut pythonautomail1@gmail.com'
+        subject = 'Verify Your Email with Scrapshut'
+        message = f'Copy and paste this url in your browser to verify https://backend.scrapshut.com/api/verify/confirm/{ran}/{id}/{token}'
+        recepient = user.email
+        try:
+            send_mail(subject, message, from_email, [recepient], fail_silently = False)
+        except Exception as e:
+            HttpResponse(e, status=403)
+    
+    return HttpResponse(f'Verification link sent to your email :)',status=200)
+    
+def confirm_verification(request, id, otp, complex):
+    user_auth = Authentication.objects.get(user=id)
+    user = User.objects.get(id=id)
+    user.is_active = True
+    user.save()
+
+    if int(user_auth.token) == int(otp):
+        user_auth.token = pyotp.totp.TOTP('abhishek').now()
+        user_auth.save()
+        return HttpResponse(f"Email successfully verified for {user.username} :)")
+    
+
+
+    return HttpResponse(f"OTP wrong. Please try again :(")
     
